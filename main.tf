@@ -33,11 +33,13 @@ resource "google_compute_resource_policy" "weekly" {
   }
 }
 
+# Create a Google Compute Network
 resource "google_compute_network" "docker" {
   description = "Default network for the project"
   name        = var.network
 }
 
+# Create a subnetwork for Docker
 resource "google_compute_subnetwork" "docker" {
   name          = var.subnetwork
   region        = var.region
@@ -45,19 +47,6 @@ resource "google_compute_subnetwork" "docker" {
   ip_cidr_range = "10.138.0.0/20"
   timeouts {}
 }
-
-resource "google_compute_project_metadata" "oslogin" {
-  metadata = {
-    "enable-oslogin" = "TRUE"
-  }
-}
-
-resource "google_compute_project_metadata" "security-key-enforcement" {
-  metadata = {
-    "security-key-enforcement" = "TRUE"
-  }
-}
-
 
 resource "google_compute_instance" "docker" {
   name         = var.name
