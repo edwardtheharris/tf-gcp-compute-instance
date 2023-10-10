@@ -1,0 +1,4 @@
+*.lock*
+.terraform
+secrets
+*.auto.tfvars
