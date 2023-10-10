@@ -65,7 +65,7 @@ resource "google_compute_instance" "docker" {
 
   boot_disk {
     initialize_params {
-      image = "arch-linux-x86_64"
+      image = "ubuntu-2204-lts"
     }
   }
 
