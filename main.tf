@@ -21,9 +21,9 @@ resource "google_compute_resource_policy" "weekly" {
 
   description = "Start and stop instance"
   instance_schedule_policy {
-    vm_start_schedule {
-      schedule = "5 7 * * 1-5"
-    }
+    # vm_start_schedule {
+    #   schedule = "5 7 * * 1-5"
+    # }
     vm_stop_schedule {
       schedule = "5 15 * * 1-5"
     }
@@ -57,40 +57,40 @@ resource "google_compute_subnetwork" "docker" {
 # }
 
 
-resource "google_compute_instance" "docker" {
-  name         = var.name
-  machine_type = var.machine_type
-  metadata = {
-    block-project-ssh-keys = true
-  }
-  tags = ["docker"]
-  zone = var.zone
+# resource "google_compute_instance" "docker" {
+#   name         = var.name
+#   machine_type = var.machine_type
+#   metadata = {
+#     block-project-ssh-keys = true
+#   }
+#   tags = ["docker"]
+#   zone = var.zone
 
-  shielded_instance_config {
-    enable_secure_boot          = true
-    enable_vtpm                 = true
-    enable_integrity_monitoring = true
-  }
+#   shielded_instance_config {
+#     enable_secure_boot          = true
+#     enable_vtpm                 = true
+#     enable_integrity_monitoring = true
+#   }
 
-  boot_disk {
-    initialize_params {
-      image = "arch-linux-x86_64"
-    }
-  }
-
-
-  network_interface {
-    subnetwork = google_compute_subnetwork.docker.self_link
-    network    = google_compute_network.docker.self_link
-  }
+#   boot_disk {
+#     initialize_params {
+#       image = "arch-linux-x86_64"
+#     }
+#   }
 
 
-  metadata_startup_script = <<-EOF
-    #!/bin/bash
-    # Install your software and perform other initialization tasks here
-    echo "Instance initialization complete."
-    EOF
-}
+#   network_interface {
+#     subnetwork = google_compute_subnetwork.docker.self_link
+#     network    = google_compute_network.docker.self_link
+#   }
+
+
+#   metadata_startup_script = <<-EOF
+#     #!/bin/bash
+#     # Install your software and perform other initialization tasks here
+#     echo "Instance initialization complete."
+#     EOF
+# }
 
 # Define a firewall rule to allow incoming SSH traffic
 resource "google_compute_firewall" "allow-ssh" {
