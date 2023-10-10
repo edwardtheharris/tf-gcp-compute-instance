@@ -14,18 +14,11 @@ sections:
   show: []
 
 content: |-
-
   {{ .Header }}
-
-  ## Providers
 
   {{ .Providers }}
 
-  ## Outputs
-
   {{ .Outputs }}
-
-  ## Inputs
 
   {{ .Inputs }}
 
