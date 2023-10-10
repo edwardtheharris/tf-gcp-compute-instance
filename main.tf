@@ -26,9 +26,6 @@ resource "google_compute_resource_policy" "weekly" {
 
   description = "Start and stop instance"
   instance_schedule_policy {
-    # vm_start_schedule {
-    #   schedule = "5 7 * * 1-5"
-    # }
     vm_stop_schedule {
       schedule = "5 15 * * 1-5"
     }
