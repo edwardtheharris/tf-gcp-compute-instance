@@ -1,7 +1,6 @@
 repos:
-  - repo: https://github.com/segmentio/terraform-docs
-    rev: v0.15.0  # Use the desired version of terraform-docs
+  - repo: https://github.com/terraform-docs/terraform-docs
+    rev: "v0.16.0"
     hooks:
-      - id: terraform-docs
-        args: ["markdown", "fmt", "-s", "."]
-        files: \.(?:tf|tfvars)$
+      - id: terraform-docs-go
+        args: ["markdown", "table", "--output-file", "readme.md", "."]
