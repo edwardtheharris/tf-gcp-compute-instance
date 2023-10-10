@@ -11,7 +11,7 @@ No requirements.
 
 The following providers are used by this module:
 
-- <a name="provider_google"></a> [google](#provider\_google) (4.84.0)
+- [google](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
 
 ## Modules
 
