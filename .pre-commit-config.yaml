@@ -1,0 +1,7 @@
+repos:
+  - repo: https://github.com/segmentio/terraform-docs
+    rev: v0.15.0  # Use the desired version of terraform-docs
+    hooks:
+      - id: terraform-docs
+        args: ["markdown", "fmt", "-s", "."]
+        files: \.(?:tf|tfvars)$
