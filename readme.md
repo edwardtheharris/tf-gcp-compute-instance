@@ -1,7 +1,6 @@
 # TF GCP Compute Instance
 
-A small, non-standard, Terraform module to deploy a single GCP Compute Instance
-on a schedule for cost optimization.
+
 
 ## Requirements
 

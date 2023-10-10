@@ -1,4 +1,4 @@
-formatter: "" # this is required
+formatter: markdown # this is required
 
 version: ""
 
@@ -13,10 +13,44 @@ sections:
   hide: []
   show: []
 
-content: ""
+content: |-
+  # TF GCP Compute Instance
+
+  A small, non-standard, Terraform module to deploy a single GCP Compute
+  Instance on a schedule for cost optimization.
+
+  {{ .Header }}
+
+  ## Providers
+
+  {{ .Providers }}
+
+  ## Outputs
+
+  {{ .Outputs }}
+
+  include any relative files
+
+  {{ include "relative/path/to/file" }}
+
+  ## Inputs
+
+  {{ .Inputs }}
+
+  ## Examples
+
+  ```hcl
+  {{ include "examples/foo/main.tf" }}
+  ```
+
+  ## Resources
+
+  {{ range .Module.Resources }}
+  - {{ .GetMode }}.{{ .Spec }} ({{ .Position.Filename }}#{{ .Position.Line }})
+  {{- end }}
 
 output:
-  file: ""
+  file: readme.md
   mode: inject
   template: |-
     <!-- BEGIN_TF_DOCS -->
@@ -24,7 +58,7 @@ output:
     <!-- END_TF_DOCS -->
 
 output-values:
-  enabled: false
+  enabled: true
   from: ""
 
 sort:
@@ -32,7 +66,7 @@ sort:
   by: name
 
 settings:
-  anchor: true
+  anchor: false
   color: true
   default: true
   description: false
