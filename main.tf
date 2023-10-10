@@ -70,6 +70,7 @@ resource "google_compute_instance" "docker" {
   }
 
   scheduling {
+    automatic_restart = false
     instance_termination_action = "STOP"
     provisioning_model = "SPOT"
     preemptible = true
