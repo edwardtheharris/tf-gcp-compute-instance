@@ -14,10 +14,6 @@ sections:
   show: []
 
 content: |-
-  # TF GCP Compute Instance
-
-  A small, non-standard, Terraform module to deploy a single GCP Compute
-  Instance on a schedule for cost optimization.
 
   {{ .Header }}
 
@@ -29,10 +25,6 @@ content: |-
 
   {{ .Outputs }}
 
-  include any relative files
-
-  {{ include "relative/path/to/file" }}
-
   ## Inputs
 
   {{ .Inputs }}
@@ -40,7 +32,7 @@ content: |-
   ## Examples
 
   ```hcl
-  {{ include "examples/foo/main.tf" }}
+  {{ include "examples/main.tf" }}
   ```
 
   ## Resources
@@ -48,6 +40,10 @@ content: |-
   {{ range .Module.Resources }}
   - {{ .GetMode }}.{{ .Spec }} ({{ .Position.Filename }}#{{ .Position.Line }})
   {{- end }}
+
+  ## Links
+
+  - [license](license.md)
 
 output:
   file: readme.md
@@ -58,7 +54,7 @@ output:
     <!-- END_TF_DOCS -->
 
 output-values:
-  enabled: true
+  enabled: false
   from: ""
 
 sort:
