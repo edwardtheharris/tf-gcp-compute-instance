@@ -44,53 +44,53 @@ resource "google_compute_subnetwork" "docker" {
   timeouts {}
 }
 
-# resource "google_compute_project_metadata" "oslogin" {
-#   metadata = {
-#     "enable-oslogin" = "TRUE"
-#   }
-# }
+resource "google_compute_project_metadata" "oslogin" {
+  metadata = {
+    "enable-oslogin" = "TRUE"
+  }
+}
 
-# resource "google_compute_project_metadata" "security-key-enforcement" {
-#   metadata = {
-#     "security-key-enforcement" = "TRUE"
-#   }
-# }
-
-
-# resource "google_compute_instance" "docker" {
-#   name         = var.name
-#   machine_type = var.machine_type
-#   metadata = {
-#     block-project-ssh-keys = true
-#   }
-#   tags = ["docker"]
-#   zone = var.zone
-
-#   shielded_instance_config {
-#     enable_secure_boot          = true
-#     enable_vtpm                 = true
-#     enable_integrity_monitoring = true
-#   }
-
-#   boot_disk {
-#     initialize_params {
-#       image = "arch-linux-x86_64"
-#     }
-#   }
+resource "google_compute_project_metadata" "security-key-enforcement" {
+  metadata = {
+    "security-key-enforcement" = "TRUE"
+  }
+}
 
 
-#   network_interface {
-#     subnetwork = google_compute_subnetwork.docker.self_link
-#     network    = google_compute_network.docker.self_link
-#   }
+resource "google_compute_instance" "docker" {
+  name         = var.name
+  machine_type = var.machine_type
+  metadata = {
+    block-project-ssh-keys = true
+  }
+  tags = ["docker"]
+  zone = var.zone
+
+  shielded_instance_config {
+    enable_secure_boot          = true
+    enable_vtpm                 = true
+    enable_integrity_monitoring = true
+  }
+
+  boot_disk {
+    initialize_params {
+      image = "arch-linux-x86_64"
+    }
+  }
 
 
-#   metadata_startup_script = <<-EOF
-#     #!/bin/bash
-#     # Install your software and perform other initialization tasks here
-#     echo "Instance initialization complete."
-#     EOF
-# }
+  network_interface {
+    subnetwork = google_compute_subnetwork.docker.self_link
+    network    = google_compute_network.docker.self_link
+  }
+
+
+  metadata_startup_script = <<-EOF
+    #!/bin/bash
+    # Install your software and perform other initialization tasks here
+    echo "Instance initialization complete."
+    EOF
+}
 
 # Define a firewall rule to allow incoming SSH traffic
 resource "google_compute_firewall" "allow-ssh" {
