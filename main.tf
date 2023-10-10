@@ -1,3 +1,8 @@
+/**
+ * ## Usage
+ *
+ * This module uses only standard resources, so usage is standard as well.
+*/
 terraform {
   cloud {
     organization = "remote-docker-workspace"

@@ -4,10 +4,9 @@ A small, non-standard, Terraform module to deploy a single GCP Compute Instance
 on a schedule for cost optimization.
 
 <!-- BEGIN_TF_DOCS -->
+## Usage
 
-
-
-## Providers
+This module uses only standard resources, so usage is standard as well.
 
 ## Providers
 
@@ -17,11 +16,7 @@ on a schedule for cost optimization.
 
 ## Outputs
 
-## Outputs
-
 No outputs.
-
-## Inputs
 
 ## Inputs
 
@@ -37,7 +32,7 @@ No outputs.
 | region | Region where resources are deployed to (e.g us-central1). | `string` | `"us-west1"` | no |
 | service\_account\_email | The service account email to use for the VM | `string` | `"your-service-account-email"` | no |
 | service\_account\_scopes | Scopes to apply to SA | `list(string)` | `[]` | no |
-| ssh\_ranges | List of IP ranges to allow access to the instance | `list(string)` | <pre>[<br>  "10.0.0.1/32"<br>]</pre> | no |
+| ssh\_ranges | List of IP ranges to allow access to the instance | `list(string)` | ```[ "10.0.0.1/32" ]``` | no |
 | subnetwork | Name of the subnetwork | `string` | `"default"` | no |
 | tags | Tags to apply to the instance | `list(string)` | `[]` | no |
 | zone | The zone in which to deploy resources | `string` | `"us-central1-a"` | no |
@@ -155,14 +150,13 @@ resource "google_compute_firewall" "allow-ssh" {
 
 ## Resources
 
-
-- resource.google_compute_firewall.allow-ssh (main.tf#96)
-- resource.google_compute_instance.docker (main.tf#60)
-- resource.google_compute_network.docker (main.tf#34)
-- resource.google_compute_project_metadata.oslogin (main.tf#47)
-- resource.google_compute_project_metadata.security-key-enforcement (main.tf#53)
-- resource.google_compute_resource_policy.weekly (main.tf#17)
-- resource.google_compute_subnetwork.docker (main.tf#39)
+- resource.google_compute_firewall.allow-ssh (main.tf#101)
+- resource.google_compute_instance.docker (main.tf#65)
+- resource.google_compute_network.docker (main.tf#39)
+- resource.google_compute_project_metadata.oslogin (main.tf#52)
+- resource.google_compute_project_metadata.security-key-enforcement (main.tf#58)
+- resource.google_compute_resource_policy.weekly (main.tf#22)
+- resource.google_compute_subnetwork.docker (main.tf#44)
 
 ## Links
 

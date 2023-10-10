@@ -29,7 +29,6 @@ content: |-
   ```
 
   ## Resources
-
   {{ range .Module.Resources }}
   - {{ .GetMode }}.{{ .Spec }} ({{ .Position.Filename }}#{{ .Position.Line }})
   {{- end }}
@@ -58,10 +57,10 @@ settings:
   anchor: false
   color: true
   default: true
-  description: false
+  description: true
   escape: true
   hide-empty: false
-  html: true
+  html: false
   indent: 2
   lockfile: true
   read-comments: true
