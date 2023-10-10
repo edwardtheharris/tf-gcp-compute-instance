@@ -150,13 +150,13 @@ resource "google_compute_firewall" "allow-ssh" {
 
 ## Resources
 
-- resource.google_compute_firewall.allow-ssh (main.tf#101)
-- resource.google_compute_instance.docker (main.tf#65)
-- resource.google_compute_network.docker (main.tf#39)
-- resource.google_compute_project_metadata.oslogin (main.tf#52)
-- resource.google_compute_project_metadata.security-key-enforcement (main.tf#58)
-- resource.google_compute_resource_policy.weekly (main.tf#22)
-- resource.google_compute_subnetwork.docker (main.tf#44)
+- resource.google_compute_firewall.allow-ssh (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#101)
+- resource.google_compute_instance.docker (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#65)
+- resource.google_compute_network.docker (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#39)
+- resource.google_compute_project_metadata.oslogin (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#52)
+- resource.google_compute_project_metadata.security-key-enforcement (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#58)
+- resource.google_compute_resource_policy.weekly (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#22)
+- resource.google_compute_subnetwork.docker (/Users/xander.harris/Documents/src/github.com/edwardtheharris/tf-gcp-compute-instance/main.tf#44)
 
 ## Links
 
