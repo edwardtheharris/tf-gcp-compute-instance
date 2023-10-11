@@ -67,7 +67,7 @@ resource "google_compute_instance" "docker" {
     ssh-keys               = "xander.harris:${var.ssh_public_key}"
     block-project-ssh-keys = true
   }
-  tags = ["docker"]
+  tags = ["docker", "allow-ssh"]
   zone = var.zone
 
   shielded_instance_config {
