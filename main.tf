@@ -21,7 +21,7 @@ provider "google" {
 
 resource "google_service_account" "remote-development-docker" {
   account_id   = "remote-development-docker"
-  display_name = "SA used for working with the remote project"
+  display_name = "rdd"
 }
 
 resource "google_compute_resource_policy" "weekly" {

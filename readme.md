@@ -163,3 +163,11 @@ resource "google_compute_firewall" "allow-ssh" {
 
 - [license](license.md)
 <!-- END_TF_DOCS -->
+
+## Connecting
+
+To connect to the instance you should run a command similar to the one below.
+
+```shell
+gcloud compute ssh --zone "us-west1-c" "docker-build" --project "remote-development-docker"
+```
