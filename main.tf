@@ -52,6 +52,7 @@ resource "google_compute_instance" "docker" {
   name         = var.name
   machine_type = var.machine_type
   metadata = {
+    ssh-keys = "xander.harris:${file(abspath("~/.ssh/id_ed25519.pub"))}"
     block-project-ssh-keys = true
   }
   tags = ["docker"]
