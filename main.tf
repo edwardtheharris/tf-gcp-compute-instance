@@ -19,6 +19,11 @@ provider "google" {
   region      = var.region
 }
 
+resource "google_service_account" "remote-development-docker" {
+  account_id   = "remote-development-docker"
+  display_name = "rdd"
+}
+
 resource "google_compute_resource_policy" "weekly" {
   name    = "docker-compute-instance"
   region  = var.region
@@ -41,9 +46,9 @@ resource "google_compute_network" "docker" {
 
 # Create a public IP address
 resource "google_compute_address" "docker_public_ip" {
-  name = "docker-public-ip"
+  name    = "docker-public-ip"
   project = var.project_id
-  region = var.region
+  region  = var.region
 }
 
 
@@ -58,7 +63,7 @@ resource "google_compute_subnetwork" "docker" {
 
 # Create a Google Compute Instance
 resource "google_compute_instance" "docker" {
-  name         = var.name
+  name = var.name
   labels = {
     name = "docker-build"
   }
@@ -91,7 +96,7 @@ resource "google_compute_instance" "docker" {
     preemptible                 = true
   }
 
-    network_interface {
+  network_interface {
     subnetwork = google_compute_subnetwork.docker.self_link
     network    = google_compute_network.docker.self_link
     access_config {
