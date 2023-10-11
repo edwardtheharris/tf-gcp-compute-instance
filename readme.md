@@ -151,12 +151,13 @@ resource "google_compute_firewall" "allow-ssh" {
 
 ## Resources
 
-- resource.google_compute_address.docker_public_ip (main.tf#43)
-- resource.google_compute_firewall.allow-ssh (main.tf#108)
-- resource.google_compute_instance.docker (main.tf#60)
-- resource.google_compute_network.docker (main.tf#37)
-- resource.google_compute_resource_policy.weekly (main.tf#22)
-- resource.google_compute_subnetwork.docker (main.tf#51)
+- resource.google_compute_address.docker_public_ip (main.tf#48)
+- resource.google_compute_firewall.allow-ssh (main.tf#113)
+- resource.google_compute_instance.docker (main.tf#65)
+- resource.google_compute_network.docker (main.tf#42)
+- resource.google_compute_resource_policy.weekly (main.tf#27)
+- resource.google_compute_subnetwork.docker (main.tf#56)
+- resource.google_service_account.remote-development-docker (main.tf#22)
 
 ## Links
 
