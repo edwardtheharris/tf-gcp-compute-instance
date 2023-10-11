@@ -16,7 +16,9 @@ This module uses only standard resources, so usage is standard as well.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| instance\_public\_ip | n/a |
 
 ## Inputs
 
