@@ -22,11 +22,6 @@ content: |-
 
   {{ .Inputs }}
 
-  ## Examples
-
-  ```hcl
-  {{ include "examples/main.tf" }}
-  ```
 
   ## Resources
   {{ range .Module.Resources }}

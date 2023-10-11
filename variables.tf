@@ -67,6 +67,7 @@ variable "ssh_public_key" {
   default     = ""
 }
 
+
 # List of IP ranges to allow access to the instance
 variable "ssh_ranges" {
   description = "List of IP ranges to allow access to the instance"
