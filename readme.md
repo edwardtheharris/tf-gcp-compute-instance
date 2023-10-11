@@ -40,7 +40,6 @@ This module uses only standard resources, so usage is standard as well.
 | tags | Tags to apply to the instance | `list(string)` | `[]` | no |
 | zone | The zone in which to deploy resources | `string` | `"us-central1-a"` | no |
 
-
 ## Resources
 
 - resource.google_compute_address.docker_public_ip (main.tf#48)

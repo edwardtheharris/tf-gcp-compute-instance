@@ -21,6 +21,7 @@ content: |-
   {{ .Outputs }}
 
   {{ .Inputs }}
+
   ## Resources
   {{ range .Module.Resources }}
   - {{ .GetMode }}.{{ .Spec }} ({{ .Position.Filename }}#{{ .Position.Line }})
