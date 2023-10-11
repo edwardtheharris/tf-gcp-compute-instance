@@ -39,6 +39,14 @@ resource "google_compute_network" "docker" {
   name        = var.network
 }
 
+# Create a public IP address
+resource "google_compute_address" "docker_public_ip" {
+  name = "docker-public-ip"
+  project = var.project_id
+  region = var.region
+}
+
+
 # Create a subnetwork for Docker
 resource "google_compute_subnetwork" "docker" {
   name          = var.subnetwork
@@ -48,8 +56,12 @@ resource "google_compute_subnetwork" "docker" {
   timeouts {}
 }
 
+# Create a Google Compute Instance
 resource "google_compute_instance" "docker" {
   name         = var.name
+  labels = {
+    name = "docker-build"
+  }
   machine_type = var.machine_type
   metadata = {
     ssh-keys               = "xander.harris:${var.ssh_public_key}"
