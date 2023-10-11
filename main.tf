@@ -91,9 +91,13 @@ resource "google_compute_instance" "docker" {
     preemptible                 = true
   }
 
-  network_interface {
+    network_interface {
     subnetwork = google_compute_subnetwork.docker.self_link
     network    = google_compute_network.docker.self_link
+    access_config {
+      // Assign the public IP address to the instance
+      nat_ip = google_compute_address.docker_public_ip.address
+    }
   }
 
 

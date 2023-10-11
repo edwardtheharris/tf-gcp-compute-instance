@@ -32,6 +32,7 @@ No outputs.
 | region | Region where resources are deployed to (e.g us-central1). | `string` | `"us-west1"` | no |
 | service\_account\_email | The service account email to use for the VM | `string` | `"your-service-account-email"` | no |
 | service\_account\_scopes | Scopes to apply to SA | `list(string)` | `[]` | no |
+| ssh\_public\_key | Publish ssh key with which to login to the instance | `string` | `""` | no |
 | ssh\_ranges | List of IP ranges to allow access to the instance | `list(string)` | ```[ "10.0.0.1/32" ]``` | no |
 | subnetwork | Name of the subnetwork | `string` | `"default"` | no |
 | tags | Tags to apply to the instance | `list(string)` | `[]` | no |
@@ -57,8 +58,8 @@ provider "google" {
 }
 
 resource "google_compute_resource_policy" "weekly" {
-  name   = "docker-compute-instance"
-  region = var.region
+  name    = "docker-compute-instance"
+  region  = var.region
   project = var.project_id
 
   description = "Start and stop instance"
@@ -150,11 +151,12 @@ resource "google_compute_firewall" "allow-ssh" {
 
 ## Resources
 
-- resource.google_compute_firewall.allow-ssh (main.tf#93)
-- resource.google_compute_instance.docker (main.tf#51)
+- resource.google_compute_address.docker_public_ip (main.tf#43)
+- resource.google_compute_firewall.allow-ssh (main.tf#108)
+- resource.google_compute_instance.docker (main.tf#60)
 - resource.google_compute_network.docker (main.tf#37)
 - resource.google_compute_resource_policy.weekly (main.tf#22)
-- resource.google_compute_subnetwork.docker (main.tf#43)
+- resource.google_compute_subnetwork.docker (main.tf#51)
 
 ## Links
 
