@@ -8,7 +8,7 @@ variable "disk_size_gb" {
 variable "gcp-creds" {
   description = "Path to a file containing GCP credentials"
   default     = "{}"
-  type = string
+  type        = string
 }
 
 # The image to deploy to the machine
@@ -63,8 +63,8 @@ variable "service_account_scopes" {
 # Publish ssh key with which to login to the instance
 variable "ssh_public_key" {
   description = "Publish ssh key with which to login to the instance"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 # List of IP ranges to allow access to the instance

@@ -20,8 +20,8 @@ provider "google" {
 }
 
 resource "google_compute_resource_policy" "weekly" {
-  name   = "docker-compute-instance"
-  region = var.region
+  name    = "docker-compute-instance"
+  region  = var.region
   project = var.project_id
 
   description = "Start and stop instance"
@@ -52,7 +52,7 @@ resource "google_compute_instance" "docker" {
   name         = var.name
   machine_type = var.machine_type
   metadata = {
-    ssh-keys = "xander.harris:${var.ssh_public_key}"
+    ssh-keys               = "xander.harris:${var.ssh_public_key}"
     block-project-ssh-keys = true
   }
   tags = ["docker"]
@@ -67,16 +67,16 @@ resource "google_compute_instance" "docker" {
   boot_disk {
     initialize_params {
       image = "ubuntu-2204-lts"
-      size = 100
-      type = "pd-standard"
+      size  = 100
+      type  = "pd-standard"
     }
   }
 
   scheduling {
-    automatic_restart = false
+    automatic_restart           = false
     instance_termination_action = "STOP"
-    provisioning_model = "SPOT"
-    preemptible = true
+    provisioning_model          = "SPOT"
+    preemptible                 = true
   }
 
   network_interface {
