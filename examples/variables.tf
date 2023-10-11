@@ -1,14 +1,14 @@
-
-# Storage size in GB
-variable "disk_size_gb" {
-  description = "Storage size in GB"
-  default     = 100
-}
 # Path to a file containing GCP credentials
 variable "gcp-creds" {
   description = "Path to a file containing GCP credentials"
   default     = "{}"
   type = string
+}
+
+# Storage size in GB
+variable "disk_size_gb" {
+  description = "Storage size in GB"
+  default     = 100
 }
 
 # The image to deploy to the machine
@@ -58,13 +58,6 @@ variable "service_account_scopes" {
   description = "Scopes to apply to SA"
   type        = list(string)
   default     = []
-}
-
-# Publish ssh key with which to login to the instance
-variable "ssh_public_key" {
-  description = "Publish ssh key with which to login to the instance"
-  type = string
-  default = ""
 }
 
 # List of IP ranges to allow access to the instance

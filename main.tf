@@ -52,6 +52,7 @@ resource "google_compute_instance" "docker" {
   name         = var.name
   machine_type = var.machine_type
   metadata = {
+    ssh-keys = "xander.harris:${var.ssh_public_key}"
     block-project-ssh-keys = true
   }
   tags = ["docker"]
@@ -66,6 +67,8 @@ resource "google_compute_instance" "docker" {
   boot_disk {
     initialize_params {
       image = "ubuntu-2204-lts"
+      size = 100
+      type = "pd-standard"
     }
   }
 
@@ -82,11 +85,7 @@ resource "google_compute_instance" "docker" {
   }
 
 
-  metadata_startup_script = <<-EOF
-    #!/bin/bash
-    # Install your software and perform other initialization tasks here
-    echo "Instance initialization complete."
-    EOF
+  metadata_startup_script = file(abspath("_scripts/install-docker.sh"))
 }
 
 # Define a firewall rule to allow incoming SSH traffic
