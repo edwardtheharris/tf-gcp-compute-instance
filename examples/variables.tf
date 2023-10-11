@@ -2,7 +2,7 @@
 variable "gcp-creds" {
   description = "Path to a file containing GCP credentials"
   default     = "{}"
-  type        = string
+  type = string
 }
 
 # Storage size in GB
@@ -63,11 +63,8 @@ variable "service_account_scopes" {
 # List of IP ranges to allow access to the instance
 variable "ssh_ranges" {
   description = "List of IP ranges to allow access to the instance"
-  default = [
-    "10.0.0.1/32",
-    "172.249.46.17/32"
-  ]
-  type = list(string)
+  default     = ["10.0.0.1/32"]
+  type        = list(string)
 }
 
 # Name of the subnetwork
