@@ -20,8 +20,8 @@ provider "google" {
 }
 
 resource "google_compute_resource_policy" "weekly" {
-  name   = "docker-compute-instance"
-  region = var.region
+  name    = "docker-compute-instance"
+  region  = var.region
   project = var.project_id
 
   description = "Start and stop instance"
@@ -39,6 +39,14 @@ resource "google_compute_network" "docker" {
   name        = var.network
 }
 
+# Create a public IP address
+resource "google_compute_address" "docker_public_ip" {
+  name = "docker-public-ip"
+  project = var.project_id
+  region = var.region
+}
+
+
 # Create a subnetwork for Docker
 resource "google_compute_subnetwork" "docker" {
   name          = var.subnetwork
@@ -48,14 +56,18 @@ resource "google_compute_subnetwork" "docker" {
   timeouts {}
 }
 
+# Create a Google Compute Instance
 resource "google_compute_instance" "docker" {
   name         = var.name
+  labels = {
+    name = "docker-build"
+  }
   machine_type = var.machine_type
   metadata = {
-    ssh-keys = "xander.harris:${var.ssh_public_key}"
+    ssh-keys               = "xander.harris:${var.ssh_public_key}"
     block-project-ssh-keys = true
   }
-  tags = ["docker"]
+  tags = ["docker", "allow-ssh"]
   zone = var.zone
 
   shielded_instance_config {
@@ -67,21 +79,25 @@ resource "google_compute_instance" "docker" {
   boot_disk {
     initialize_params {
       image = "ubuntu-2204-lts"
-      size = 100
-      type = "pd-standard"
+      size  = 100
+      type  = "pd-standard"
     }
   }
 
   scheduling {
-    automatic_restart = false
+    automatic_restart           = false
     instance_termination_action = "STOP"
-    provisioning_model = "SPOT"
-    preemptible = true
+    provisioning_model          = "SPOT"
+    preemptible                 = true
   }
 
-  network_interface {
+    network_interface {
     subnetwork = google_compute_subnetwork.docker.self_link
     network    = google_compute_network.docker.self_link
+    access_config {
+      // Assign the public IP address to the instance
+      nat_ip = google_compute_address.docker_public_ip.address
+    }
   }
 
 

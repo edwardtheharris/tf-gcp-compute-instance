@@ -15,8 +15,8 @@ provider "google" {
 }
 
 resource "google_compute_resource_policy" "weekly" {
-  name   = "docker-compute-instance"
-  region = var.region
+  name    = "docker-compute-instance"
+  region  = var.region
   project = var.project_id
 
   description = "Start and stop instance"
