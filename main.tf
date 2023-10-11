@@ -19,11 +19,6 @@ provider "google" {
   region      = var.region
 }
 
-resource "google_service_account" "remote-development-docker" {
-  account_id   = "remote-development-docker"
-  display_name = "rdd"
-}
-
 resource "google_compute_resource_policy" "weekly" {
   name    = "docker-compute-instance"
   region  = var.region
