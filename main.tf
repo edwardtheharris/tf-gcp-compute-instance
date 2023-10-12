@@ -100,15 +100,15 @@ resource "google_compute_instance" "docker" {
     }
   }
 
-  connection {
-    type     = "ssh"
-    user     = var.local_keys.user
-    host     = self.hostname
-  }
 
   provisioner "file" {
     source = abspath("_scripts/install-docker.sh")
     destination = "/bin/install-docker.sh"
+    connection {
+      type     = "ssh"
+      user     = var.local_keys.user
+      host     = self.hostname
+    }
   }
 
   provisioner "remote-exec" {
@@ -116,11 +116,21 @@ resource "google_compute_instance" "docker" {
       "sudo chmod +x /bin/install-docker.sh",
       "/bin/install-docker.sh ${var.local_keys.user}"
     ]
+    connection {
+      type     = "ssh"
+      user     = var.local_keys.user
+      host     = self.hostname
+    }
   }
 
   provisioner "file" {
     source = abspath("_scripts/setup-ssh.sh")
     destination = "/bin/setup-ssh.sh"
+    connection {
+      type     = "ssh"
+      user     = var.local_keys.user
+      host     = self.hostname
+    }
   }
 
   provisioner "remote-exec" {
@@ -128,6 +138,11 @@ resource "google_compute_instance" "docker" {
       "sudo chmod +x /bin/setup-ssh.sh",
       "/bin/setup-ssh.sh ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
     ]
+    connection {
+      type     = "ssh"
+      user     = var.local_keys.user
+      host     = self.hostname
+    }
   }
 }
 
