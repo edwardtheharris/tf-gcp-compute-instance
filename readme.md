@@ -27,6 +27,8 @@ This module uses only standard resources, so usage is standard as well.
 | disk\_size\_gb | Storage size in GB | `number` | `100` | no |
 | gcp-creds | Path to a file containing GCP credentials | `string` | `"{}"` | no |
 | image | The image to deploy to the machine | `string` | `"projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817"` | no |
+| local\_private\_key | A private key to be used across the daily deployment of instances | `string` | `""` | no |
+| local\_public\_key | A public key that corresponds to the private key provisioned above | `string` | `""` | no |
 | machine\_type | Type of compute instance to deploy | `string` | `"n2-standard-2"` | no |
 | name | Name of the compute instance | `string` | `"docker-build"` | no |
 | network | Name of the network to be used | `string` | `"default"` | no |
@@ -43,7 +45,7 @@ This module uses only standard resources, so usage is standard as well.
 ## Resources
 
 - resource.google_compute_address.docker_public_ip (main.tf#43)
-- resource.google_compute_firewall.allow-ssh (main.tf#108)
+- resource.google_compute_firewall.allow-ssh (main.tf#117)
 - resource.google_compute_instance.docker (main.tf#60)
 - resource.google_compute_network.docker (main.tf#37)
 - resource.google_compute_resource_policy.weekly (main.tf#22)
