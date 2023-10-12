@@ -35,7 +35,7 @@ resource "google_compute_resource_policy" "weekly" {
 
 # Create a Google Compute Network
 data "google_compute_network" "docker" {
-  name        = var.network
+  name = var.network
 }
 
 # Create a public IP address
@@ -48,13 +48,13 @@ resource "google_compute_address" "docker_public_ip" {
 
 # Define the subnetwork data for Docker
 data "google_compute_subnetwork" "docker" {
-  name          = var.subnetwork
-  region        = var.region
+  name   = var.subnetwork
+  region = var.region
 }
 
 # Create a Google Compute Instance
 resource "google_compute_instance" "docker" {
-  name = var.name
+  name           = var.name
   enable_display = true
   labels = {
     name = "docker-build"
@@ -62,7 +62,7 @@ resource "google_compute_instance" "docker" {
   machine_type = var.machine_type
   metadata = {
     block-project-ssh-keys = true
-    enable-os-login = true
+    enable-os-login        = true
     ssh-keys               = "xander.harris:${var.ssh_public_key}\nxander.harris:${var.local_keys.public}"
   }
   tags = ["docker", "allow-ssh"]
@@ -99,20 +99,20 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "local-exec" {
-    command = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}"
-    interpreter = [ "/bin/bash", "-c" ]
+    command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}"
+    interpreter = ["/bin/bash", "-c"]
     working_dir = path.module
   }
 
   provisioner "local-exec" {
-    command = "scp _scripts/install-docker.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}:"
-    interpreter = [ "/bin/bash", "-c" ]
+    command     = "scp _scripts/install-docker.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}:"
+    interpreter = ["/bin/bash", "-c"]
     working_dir = path.module
   }
 
   provisioner "local-exec" {
-    command = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/install-docker.sh ${var.local_keys.user} ${var.local_keys.private}"
-    interpreter = [ "/bin/bash", "-c" ]
+    command     = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/install-docker.sh ${var.local_keys.user} ${var.local_keys.private}"
+    interpreter = ["/bin/bash", "-c"]
     working_dir = path.module
   }
 
