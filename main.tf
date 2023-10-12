@@ -99,8 +99,8 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "local-exec" {
-    command = "_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}"
-    interpreter = [ "source" ]
+    command = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}"
+    interpreter = [ "/bin/bash", "-c" ]
     working_dir = path.module
   }
 
@@ -110,17 +110,10 @@ resource "google_compute_instance" "docker" {
     working_dir = path.module
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chmod +x /tmp/install-docker.sh",
-      "/tmp/install-docker.sh ${var.local_keys.user}"
-    ]
-    connection {
-      type     = "ssh"
-      user     = var.local_keys.user
-      private_key = file("~/.ssh/id_ed25519")
-      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
-    }
+  provisioner "local-exec" {
+    command = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/install-docker.sh ${var.local_keys.user}"
+    interpreter = [ "/bin/bash", "-c" ]
+    working_dir = path.module
   }
 
   provisioner "local-exec" {
@@ -129,16 +122,10 @@ resource "google_compute_instance" "docker" {
     working_dir = path.module
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chmod +x /bin/setup-ssh.sh",
-      "/bin/setup-ssh.sh ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
-    ]
-    connection {
-      type     = "ssh"
-      user     = var.local_keys.user
-      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
-    }
+  provisioner "local-exec" {
+    command = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/setup-ssh.sh ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
+    interpreter = [ "/bin/bash", "-c" ]
+    working_dir = path.module
   }
 }
 
