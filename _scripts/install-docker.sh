@@ -25,7 +25,3 @@ sudo usermod -a -G docker xander.harris
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
 sudo update-alternatives --set editor /usr/bin/vim.basic
-git config --global user.email xander.harris@wunderkind.co
-git config --global user.username xander.harris
-git config --global comit.gpgsign true
-

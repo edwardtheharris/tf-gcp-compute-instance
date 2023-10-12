@@ -114,6 +114,7 @@ resource "google_compute_instance" "docker" {
     environment = {
       LOCAL_PRIVATE_KEY = var.local_keys.private
       LOCAL_PUBLIC_KEY  = var.local_keys.public
+      LUSER = var.local_keys.user
     }
   }
 }
