@@ -100,22 +100,34 @@ resource "google_compute_instance" "docker" {
     }
   }
 
-  provisioner "local-exec" {
-    command     = "_scripts/install-docker.sh"
-    interpreter = ["/bin/bash"]
-    working_dir = path.module
+  connection {
+    type     = "ssh"
+    user     = var.local_keys.user
+    host     = self.hostname
   }
 
-  provisioner "local-exec" {
-    command     = "_scripts/setup-ssh.sh"
-    interpreter = ["/bin/bash"]
-    working_dir = path.module
+  provisioner "file" {
+    source = abspath("_scripts/install-docker.sh")
+    destination = "/bin/install-docker.sh"
+  }
 
-    environment = {
-      LOCAL_PRIVATE_KEY = var.local_keys.private
-      LOCAL_PUBLIC_KEY  = var.local_keys.public
-      LUSER = var.local_keys.user
-    }
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /bin/install-docker.sh",
+      "/bin/install-docker.sh ${var.local_keys.user}"
+    ]
+  }
+
+  provisioner "file" {
+    source = abspath("_scripts/setup-ssh.sh")
+    destination = "/bin/setup-ssh.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /bin/setup-ssh.sh",
+      "/bin/setup-ssh.sh ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
+    ]
   }
 }
 
