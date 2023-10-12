@@ -98,16 +98,16 @@ resource "google_compute_instance" "docker" {
     }
   }
 
+  provisioner "local-exec" {
+    command = "_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}"
+    interpreter = [ "source" ]
+    working_dir = path.module
+  }
 
-  provisioner "file" {
-    source = abspath("_scripts/install-docker.sh")
-    destination = "/tmp/install-docker.sh"
-    connection {
-      type     = "ssh"
-      user     = var.local_keys.user
-      private_key = file("~/.ssh/id_ed25519")
-      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
-    }
+  provisioner "local-exec" {
+    command = "scp _scripts/install-docker.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}:"
+    interpreter = [ "/bin/bash", "-c" ]
+    working_dir = path.module
   }
 
   provisioner "remote-exec" {
@@ -118,18 +118,15 @@ resource "google_compute_instance" "docker" {
     connection {
       type     = "ssh"
       user     = var.local_keys.user
+      private_key = file("~/.ssh/id_ed25519")
       host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
     }
   }
 
-  provisioner "file" {
-    source = abspath("_scripts/setup-ssh.sh")
-    destination = "/bin/setup-ssh.sh"
-    connection {
-      type     = "ssh"
-      user     = var.local_keys.user
-      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
-    }
+  provisioner "local-exec" {
+    command = "scp _scripts/setup-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}:"
+    interpreter = [ "/bin/bash", "-c" ]
+    working_dir = path.module
   }
 
   provisioner "remote-exec" {
