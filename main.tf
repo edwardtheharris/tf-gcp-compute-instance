@@ -104,9 +104,16 @@ resource "google_compute_instance" "docker" {
     command     = "_scripts/install-docker.sh"
     interpreter = ["/bin/bash"]
     working_dir = path.module
+  }
+
+  provisioner "local-exec" {
+    command     = "_scripts/setup-ssh.sh"
+    interpreter = ["/bin/bash"]
+    working_dir = path.module
 
     environment = {
       LOCAL_PRIVATE_KEY = var.local_private_key
+      LOCAL_PUBLIC_KEY = var.local_public_key
     }
   }
 }
