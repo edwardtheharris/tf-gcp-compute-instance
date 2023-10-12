@@ -27,8 +27,7 @@ This module uses only standard resources, so usage is standard as well.
 | disk\_size\_gb | Storage size in GB | `number` | `100` | no |
 | gcp-creds | Path to a file containing GCP credentials | `string` | `"{}"` | no |
 | image | The image to deploy to the machine | `string` | `"projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817"` | no |
-| local\_private\_key | A private key to be used across the daily deployment of instances | `string` | `""` | no |
-| local\_public\_key | A public key that corresponds to the private key provisioned above | `string` | `""` | no |
+| local\_keys | SSH keys to be used across the daily deployment of instances | `map(string)` | `{}` | no |
 | machine\_type | Type of compute instance to deploy | `string` | `"n2-standard-2"` | no |
 | name | Name of the compute instance | `string` | `"docker-build"` | no |
 | network | Name of the network to be used | `string` | `"default"` | no |

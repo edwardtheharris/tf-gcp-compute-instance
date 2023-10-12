@@ -17,18 +17,11 @@ variable "image" {
   default     = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817"
 }
 
-# A private key to be used across the daily deployment of instances
-variable "local_private_key" {
-  description = "A private key to be used across the daily deployment of instances"
-  default     = ""
-  type        = string
-}
-
-# A public key that corresponds to the private key provisioned above
-variable "local_public_key" {
-  description = "A public key that corresponds to the private key provisioned above"
-  default     = ""
-  type        = string
+# SSH keys to be used across the daily deployment of instances
+variable "local_keys" {
+  description = "SSH keys to be used across the daily deployment of instances"
+  default     = {}
+  type        = map(string)
 }
 
 # Type of compute instance to deploy

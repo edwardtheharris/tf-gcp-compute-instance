@@ -112,8 +112,8 @@ resource "google_compute_instance" "docker" {
     working_dir = path.module
 
     environment = {
-      LOCAL_PRIVATE_KEY = var.local_private_key
-      LOCAL_PUBLIC_KEY = var.local_public_key
+      LOCAL_PRIVATE_KEY = var.local_keys.private
+      LOCAL_PUBLIC_KEY  = var.local_keys.public
     }
   }
 }
