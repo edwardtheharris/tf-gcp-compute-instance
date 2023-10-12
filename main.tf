@@ -100,9 +100,25 @@ resource "google_compute_instance" "docker" {
     }
   }
 
+  provisioner "local-exec" {
+    command     = "_scripts/install-docker.sh"
+    interpreter = ["/bin/bash"]
+    working_dir = path.module
+  }
 
-  metadata_startup_script = file(abspath("_scripts/install-docker.sh"))
+  provisioner "local-exec" {
+    command     = "_scripts/setup-ssh.sh"
+    interpreter = ["/bin/bash"]
+    working_dir = path.module
+
+    environment = {
+      LOCAL_PRIVATE_KEY = var.local_keys.private
+      LOCAL_PUBLIC_KEY  = var.local_keys.public
+    }
+  }
 }
+
+
 
 # Define a firewall rule to allow incoming SSH traffic
 resource "google_compute_firewall" "allow-ssh" {

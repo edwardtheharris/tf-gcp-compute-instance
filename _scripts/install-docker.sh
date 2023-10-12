@@ -28,6 +28,4 @@ sudo update-alternatives --set editor /usr/bin/vim.basic
 git config --global user.email xander.harris@wunderkind.co
 git config --global user.username xander.harris
 git config --global comit.gpgsign true
-ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
-ssh-keyscan gitlab.bouncex.net >> ~/.ssh/known_hosts
-echo "${SSH_PUBLIC_KEY}" >> ~/.ssh/authorized_keys
+
