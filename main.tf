@@ -34,8 +34,7 @@ resource "google_compute_resource_policy" "weekly" {
 }
 
 # Create a Google Compute Network
-resource "google_compute_network" "docker" {
-  description = "Default network for the project"
+data "google_compute_network" "docker" {
   name        = var.network
 }
 
@@ -47,25 +46,24 @@ resource "google_compute_address" "docker_public_ip" {
 }
 
 
-# Create a subnetwork for Docker
-resource "google_compute_subnetwork" "docker" {
+# Define the subnetwork data for Docker
+data "google_compute_subnetwork" "docker" {
   name          = var.subnetwork
   region        = var.region
-  network       = google_compute_network.docker.name
-  ip_cidr_range = "10.138.0.0/20"
-  timeouts {}
 }
 
 # Create a Google Compute Instance
 resource "google_compute_instance" "docker" {
   name = var.name
+  enable_display = true
   labels = {
     name = "docker-build"
   }
   machine_type = var.machine_type
   metadata = {
-    ssh-keys               = "xander.harris:${var.ssh_public_key}"
     block-project-ssh-keys = true
+    enable-os-login = true
+    ssh-keys               = "xander.harris:${var.ssh_public_key}\nxander.harris:${var.local_keys.public}"
   }
   tags = ["docker", "allow-ssh"]
   zone = var.zone
@@ -92,8 +90,8 @@ resource "google_compute_instance" "docker" {
   }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.docker.self_link
-    network    = google_compute_network.docker.self_link
+    subnetwork = data.google_compute_subnetwork.docker.self_link
+    network    = data.google_compute_network.docker.self_link
     access_config {
       // Assign the public IP address to the instance
       nat_ip = google_compute_address.docker_public_ip.address
@@ -103,23 +101,24 @@ resource "google_compute_instance" "docker" {
 
   provisioner "file" {
     source = abspath("_scripts/install-docker.sh")
-    destination = "/bin/install-docker.sh"
+    destination = "/tmp/install-docker.sh"
     connection {
       type     = "ssh"
       user     = var.local_keys.user
-      host     = self.hostname
+      private_key = file("~/.ssh/id_ed25519")
+      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
     }
   }
 
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /bin/install-docker.sh",
-      "/bin/install-docker.sh ${var.local_keys.user}"
+      "sudo chmod +x /tmp/install-docker.sh",
+      "/tmp/install-docker.sh ${var.local_keys.user}"
     ]
     connection {
       type     = "ssh"
       user     = var.local_keys.user
-      host     = self.hostname
+      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
     }
   }
 
@@ -129,7 +128,7 @@ resource "google_compute_instance" "docker" {
     connection {
       type     = "ssh"
       user     = var.local_keys.user
-      host     = self.hostname
+      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
     }
   }
 
@@ -141,7 +140,7 @@ resource "google_compute_instance" "docker" {
     connection {
       type     = "ssh"
       user     = var.local_keys.user
-      host     = self.hostname
+      host     = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
     }
   }
 }
@@ -151,7 +150,7 @@ resource "google_compute_instance" "docker" {
 # Define a firewall rule to allow incoming SSH traffic
 resource "google_compute_firewall" "allow-ssh" {
   name    = "allow-ssh"
-  network = google_compute_network.docker.name
+  network = data.google_compute_network.docker.name
 
   allow {
     protocol = "tcp"
