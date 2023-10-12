@@ -119,15 +119,13 @@ resource "google_compute_instance" "docker" {
 }
 
 
-
 # Define a firewall rule to allow incoming SSH traffic
-resource "google_compute_firewall" "allow-ssh" {
-  name    = "allow-ssh"
+resource "google_compute_firewall" "allow-all-tcp-from-local" {
+  name    = "allow-all-tcp-from-local"
   network = data.google_compute_network.docker.name
 
   allow {
     protocol = "tcp"
-    ports    = ["22"]
   }
 
   source_ranges = var.ssh_ranges
