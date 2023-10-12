@@ -1,6 +1,7 @@
 #!/bin/bash
 
 LUSER=$1
+LOCAL_PRIVATE_KEY=$2
 
 for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
     sudo DEBIAN_FRONTEND=noninteractive apt-get remove -y $pkg;
@@ -27,3 +28,8 @@ sudo usermod -a -G docker "${LUSER}"
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
 sudo update-alternatives --set editor /usr/bin/vim.basic
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
+ssh-keyscan gitlab.bouncex.net >> ~/.ssh/known_hosts
+echo "${SSH_PUBLIC_KEY}" >> ~/.ssh/authorized_keys
+echo -n "${LOCAL_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
+

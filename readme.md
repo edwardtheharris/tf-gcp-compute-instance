@@ -44,7 +44,7 @@ This module uses only standard resources, so usage is standard as well.
 ## Resources
 
 - resource.google_compute_address.docker_public_ip (main.tf#42)
-- resource.google_compute_firewall.allow-ssh (main.tf#135)
+- resource.google_compute_firewall.allow-ssh (main.tf#124)
 - resource.google_compute_instance.docker (main.tf#56)
 - resource.google_compute_resource_policy.weekly (main.tf#22)
 - data source.google_compute_network.docker (main.tf#37)

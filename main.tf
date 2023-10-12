@@ -111,22 +111,11 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "local-exec" {
-    command = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/install-docker.sh ${var.local_keys.user}"
+    command = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/install-docker.sh ${var.local_keys.user} ${var.local_keys.private}"
     interpreter = [ "/bin/bash", "-c" ]
     working_dir = path.module
   }
 
-  provisioner "local-exec" {
-    command = "scp _scripts/setup-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}:"
-    interpreter = [ "/bin/bash", "-c" ]
-    working_dir = path.module
-  }
-
-  provisioner "local-exec" {
-    command = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/setup-ssh.sh ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
-    interpreter = [ "/bin/bash", "-c" ]
-    working_dir = path.module
-  }
 }
 
 
