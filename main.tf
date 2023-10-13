@@ -38,13 +38,10 @@ data "google_compute_network" "docker" {
   name = var.network
 }
 
-# Create a public IP address
-resource "google_compute_address" "docker_public_ip" {
-  name    = "docker-public-ip"
-  project = var.project_id
-  region  = var.region
+# Define the static IP address data source
+data "google_compute_address" "remote-development-docker" {
+  name = "remote-development-docker"
 }
-
 
 # Define the subnetwork data for Docker
 data "google_compute_subnetwork" "docker" {
@@ -94,7 +91,7 @@ resource "google_compute_instance" "docker" {
     network    = data.google_compute_network.docker.self_link
     access_config {
       // Assign the public IP address to the instance
-      nat_ip = google_compute_address.docker_public_ip.address
+      nat_ip = data.google_compute_address.remote-development-docker.address
     }
   }
 
