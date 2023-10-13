@@ -4,7 +4,6 @@ output "instance_public_ip" {
   value = google_compute_instance.docker.network_interface[0].access_config[0].nat_ip
 }
 
-
 # Output the DNS name
 output "dns_name" {
   # The value of the DNS name is the name of the DNS record set
