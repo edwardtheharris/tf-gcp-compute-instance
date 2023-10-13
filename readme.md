@@ -44,14 +44,14 @@ This module uses only standard resources, so usage is standard as well.
 
 ## Resources
 
-- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#120)
-- resource.google_compute_instance.docker (main.tf#53)
-- resource.google_compute_resource_policy.weekly (main.tf#22)
-- resource.google_dns_managed_zone.rdd (cloud-dns.tf#10)
-- resource.google_dns_record_set.rdd (cloud-dns.tf#1)
-- data source.google_compute_address.remote-development-docker (main.tf#42)
-- data source.google_compute_network.docker (main.tf#37)
-- data source.google_compute_subnetwork.docker (main.tf#47)
+- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#108)
+- resource.google_compute_instance.docker (main.tf#41)
+- resource.google_compute_resource_policy.weekly (main.tf#24)
+- data source.google_compute_address.remote-development-docker (network.tf#12)
+- data source.google_compute_network.docker (network.tf#2)
+- data source.google_compute_subnetwork.docker (network.tf#7)
+- data source.google_dns_managed_zone.rdd (dns.tf#27)
+- data source.google_dns_record_set.rdd (dns.tf#11)
 
 ## Links
 

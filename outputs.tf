@@ -7,5 +7,5 @@ output "instance_public_ip" {
 # Output the DNS name
 output "dns_name" {
   # The value of the DNS name is the name of the DNS record set
-  value = google_dns_record_set.rdd.name
+  value = data.google_dns_record_set.rdd.name
 }

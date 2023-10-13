@@ -2,8 +2,10 @@
 
 REMOTE=$1
 
-sudo apt-get -y update
-sudo apt-get -y install netcat
+if [[ -f $(command -v) ]]; then
+  sudo apt-get -y update
+  sudo apt-get -y install netcat
+fi
 
 while ! nc -z "${REMOTE}" 22; do
   printf "Waiting for ssh connection. . . \n"
