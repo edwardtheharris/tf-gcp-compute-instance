@@ -18,7 +18,8 @@ This module uses only standard resources, so usage is standard as well.
 
 | Name | Description |
 |------|-------------|
-| instance\_public\_ip | n/a |
+| dns\_name | Output the DNS name |
+| instance\_public\_ip | Output the public IP address of the Docker instance |
 
 ## Inputs
 
