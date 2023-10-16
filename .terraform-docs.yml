@@ -32,7 +32,7 @@ content: |-
   - [license](license.md)
 
 output:
-  file: readme.md
+  file: README.md
   mode: inject
   template: |-
     <!-- BEGIN_TF_DOCS -->

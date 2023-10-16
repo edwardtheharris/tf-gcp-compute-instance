@@ -57,8 +57,8 @@ This module uses only standard resources, so usage is standard as well.
 - data source.google_compute_address.remote-development-docker (network.tf#12)
 - data source.google_compute_network.docker (network.tf#2)
 - data source.google_compute_subnetwork.docker (network.tf#7)
-- data source.google_dns_managed_zone.rdd (dns.tf#27)
-- data source.google_dns_record_set.rdd (dns.tf#11)
+- data source.google_dns_managed_zone.rdd (dns.tf#36)
+- data source.google_dns_record_set.rdd (dns.tf#15)
 
 ## Links
 
