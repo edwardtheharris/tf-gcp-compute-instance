@@ -51,9 +51,9 @@ This module uses only standard resources, so usage is standard as well.
 
 ## Resources
 
-- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#108)
-- resource.google_compute_instance.docker (main.tf#41)
-- resource.google_compute_resource_policy.weekly (main.tf#24)
+- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#109)
+- resource.google_compute_instance.docker (main.tf#42)
+- resource.google_compute_resource_policy.weekly (main.tf#25)
 - data source.google_compute_address.remote-development-docker (network.tf#12)
 - data source.google_compute_network.docker (network.tf#2)
 - data source.google_compute_subnetwork.docker (network.tf#7)
