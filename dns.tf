@@ -3,14 +3,14 @@
  * targeting, then commented out so that when the other resources are destroyed
  * at the end of the day the dns records remain.
 */
-resource "google_dns_record_set" "rdd" {
-  name         = "rdd.${data.google_dns_managed_zone.rdd.dns_name}" # Set the record name
-  managed_zone = data.google_dns_managed_zone.rdd.name              # Set the managed zone name
-  type         = "A"                                           # Set the record type to A
-  ttl          = 300                                           # Set the time-to-live to 300 seconds
+# resource "google_dns_record_set" "rdd" {
+#   name         = "rdd.${data.google_dns_managed_zone.rdd.dns_name}" # Set the record name
+#   managed_zone = data.google_dns_managed_zone.rdd.name              # Set the managed zone name
+#   type         = "A"                                           # Set the record type to A
+#   ttl          = 300                                           # Set the time-to-live to 300 seconds
 
-  rrdatas = [data.google_compute_address.remote-development-docker.address] # Set the IP address for the record
-}
+#   rrdatas = [data.google_compute_address.remote-development-docker.address] # Set the IP address for the record
+# }
 
 data "google_dns_record_set" "rdd" {
     name = "rdd.${data.google_dns_managed_zone.rdd.dns_name}"
