@@ -3,6 +3,13 @@
 A small, non-standard, Terraform module to deploy a single GCP Compute Instance
 on a schedule for cost optimization.
 
+You will need an active Google Cloud Project account for this to work, it will
+also require an associated Billing Account with a valid method of payment.
+
+The cost of running this resource is roughly 0.9 USD per day so long as you
+destroy the resources when you are finished working and leave the spot instance
+setting set to yes.
+
 <!-- BEGIN_TF_DOCS -->
 ## Usage
 
@@ -18,7 +25,8 @@ This module uses only standard resources, so usage is standard as well.
 
 | Name | Description |
 |------|-------------|
-| instance\_public\_ip | n/a |
+| dns\_name | Output the DNS name |
+| instance\_public\_ip | Output the public IP address of the Docker instance |
 
 ## Inputs
 
@@ -43,12 +51,14 @@ This module uses only standard resources, so usage is standard as well.
 
 ## Resources
 
-- resource.google_compute_address.docker_public_ip (main.tf#42)
-- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#123)
-- resource.google_compute_instance.docker (main.tf#56)
-- resource.google_compute_resource_policy.weekly (main.tf#22)
-- data source.google_compute_network.docker (main.tf#37)
-- data source.google_compute_subnetwork.docker (main.tf#50)
+- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#108)
+- resource.google_compute_instance.docker (main.tf#41)
+- resource.google_compute_resource_policy.weekly (main.tf#24)
+- data source.google_compute_address.remote-development-docker (network.tf#12)
+- data source.google_compute_network.docker (network.tf#2)
+- data source.google_compute_subnetwork.docker (network.tf#7)
+- data source.google_dns_managed_zone.rdd (dns.tf#27)
+- data source.google_dns_record_set.rdd (dns.tf#11)
 
 ## Links
 

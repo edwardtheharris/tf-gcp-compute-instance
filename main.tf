@@ -13,43 +13,28 @@ terraform {
   }
 }
 
+# Configure the Google Cloud provider
 provider "google" {
-  credentials = var.gcp-creds
-  project     = var.project_id
-  region      = var.region
+  credentials = var.gcp-creds  # Path to GCP credentials file
+  project     = var.project_id # GCP project ID
+  region      = var.region     # GCP region for resources
 }
 
+# Create a Google Compute Resource Policy
 resource "google_compute_resource_policy" "weekly" {
   name    = "docker-compute-instance"
   region  = var.region
   project = var.project_id
 
   description = "Start and stop instance"
+
+  # Define the instance schedule policy
   instance_schedule_policy {
     vm_stop_schedule {
       schedule = "5 15 * * 1-5"
     }
     time_zone = "America/Los_Angeles"
   }
-}
-
-# Create a Google Compute Network
-data "google_compute_network" "docker" {
-  name = var.network
-}
-
-# Create a public IP address
-resource "google_compute_address" "docker_public_ip" {
-  name    = "docker-public-ip"
-  project = var.project_id
-  region  = var.region
-}
-
-
-# Define the subnetwork data for Docker
-data "google_compute_subnetwork" "docker" {
-  name   = var.subnetwork
-  region = var.region
 }
 
 # Create a Google Compute Instance
@@ -94,7 +79,7 @@ resource "google_compute_instance" "docker" {
     network    = data.google_compute_network.docker.self_link
     access_config {
       // Assign the public IP address to the instance
-      nat_ip = google_compute_address.docker_public_ip.address
+      nat_ip = data.google_compute_address.remote-development-docker.address
     }
   }
 
