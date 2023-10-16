@@ -3,6 +3,13 @@
 A small, non-standard, Terraform module to deploy a single GCP Compute Instance
 on a schedule for cost optimization.
 
+You will need an active Google Cloud Project account for this to work, it will
+also require an associated Billing Account with a valid method of payment.
+
+The cost of running this resource is roughly 0.9 USD per day so long as you
+destroy the resources when you are finished working and leave the spot instance
+setting set to yes.
+
 <!-- BEGIN_TF_DOCS -->
 ## Usage
 
