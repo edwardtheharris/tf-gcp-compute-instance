@@ -2,7 +2,7 @@
 
 REMOTE=$1
 
-if [[ -f $(command -v) ]]; then
+if [[ -f $(command -v apt-get) ]]; then
   sudo apt-get -y update
   sudo apt-get -y install netcat
 fi
