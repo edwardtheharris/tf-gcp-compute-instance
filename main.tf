@@ -18,6 +18,7 @@ provider "google" {
   credentials = var.gcp-creds  # Path to GCP credentials file
   project     = var.project_id # GCP project ID
   region      = var.region     # GCP region for resources
+  zone        = var.zone
 }
 
 # Create a Google Compute Resource Policy

@@ -13,9 +13,9 @@
 # }
 
 data "google_dns_record_set" "rdd" {
-    name = "rdd.${data.google_dns_managed_zone.rdd.dns_name}"
-    managed_zone = data.google_dns_managed_zone.rdd.name
-    type = "A"
+  name         = "rdd.${data.google_dns_managed_zone.rdd.dns_name}"
+  managed_zone = data.google_dns_managed_zone.rdd.name
+  type         = "A"
 }
 
 /**
@@ -34,5 +34,5 @@ data "google_dns_record_set" "rdd" {
 
 # Define Google Cloud DNS managed zone
 data "google_dns_managed_zone" "rdd" {
-    name = "remote-development-docker-zone" # Managed zone name
+  name = "remote-development-docker-zone" # Managed zone name
 }
