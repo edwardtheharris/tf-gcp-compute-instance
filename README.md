@@ -72,3 +72,29 @@ To connect to the instance you should run a command similar to the one below.
 ```shell
 gcloud compute ssh --zone "us-west1-c" "docker-build" --project "remote-development-docker"
 ```
+
+### Post-apply Steps
+
+Local provisioners are discouraged in the TF docs, so this command will need
+to be run manually on your local machine after the apply has been completed.
+
+```hcl
+provisioner "local-exec" {
+   command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
+   interpreter = ["/bin/bash", "-c"]
+   working_dir = path.module
+}
+```
+
+Here is an example of how to use the command. It will also output usage
+information if you forget to set one of the variables.
+
+```shell
+remote=your.remote.host
+private_key=$(cat secrets/id_rsa| base64)
+public_key=$(cat secrets/id_rsa.pub| base64)
+
+source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER
+```
+
+> Note the public and private keys are expected to be base64 encoded.
