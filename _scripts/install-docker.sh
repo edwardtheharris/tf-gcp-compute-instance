@@ -10,7 +10,34 @@ done
 
 # Add Docker's official GPG key:
 sudo apt-get update
+# Install some utilities
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl glances gnupg httpie netdata
+# Configure netdata
+netdata_config=$(cat <<EOF
+# NetData Configuration
+
+# The current full configuration can be retrieved from the running
+# server at the URL
+#
+#   http://localhost:19999/netdata.conf
+#
+# for example:
+#
+#   wget -O /etc/netdata/netdata.conf http://localhost:19999/netdata.conf
+#
+
+[global]
+        run as user = netdata
+        web files owner = root
+        web files group = root
+        # Netdata is not designed to be exposed to potentially hostile
+        # networks. See https://github.com/netdata/netdata/issues/164
+        bind socket to IP = 0.0.0.0
+EOF
+)
+echo "$netdata_config" | sudo tee /etc/netdata/netdata.conf
+# Restart netdata with new config
+sudo systemctl restart netdata
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
