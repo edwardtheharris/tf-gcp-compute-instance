@@ -10,7 +10,7 @@ done
 
 # Add Docker's official GPG key:
 sudo apt-get update
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl gnupg netdata
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl glances gnupg httpie netdata
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
