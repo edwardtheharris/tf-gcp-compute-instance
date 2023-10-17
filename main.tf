@@ -49,7 +49,7 @@ resource "google_compute_instance" "docker" {
   metadata = {
     block-project-ssh-keys = true
     enable-os-login        = true
-    ssh-keys               = "xander.harris:${var.ssh_public_key}\nxander.harris:${var.local_keys.public}"
+    ssh-keys               = "xander.harris:${var.local_keys.public}"
   }
   tags = ["docker", "allow-ssh"]
   zone = var.zone
@@ -85,25 +85,11 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "local-exec" {
-    command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}"
+    command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
     interpreter = ["/bin/bash", "-c"]
     working_dir = path.module
   }
-
-  provisioner "local-exec" {
-    command     = "scp _scripts/install-docker.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip}:"
-    interpreter = ["/bin/bash", "-c"]
-    working_dir = path.module
-  }
-
-  provisioner "local-exec" {
-    command     = "ssh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} source /home/${var.local_keys.user}/install-docker.sh ${var.local_keys.user} ${var.local_keys.private}"
-    interpreter = ["/bin/bash", "-c"]
-    working_dir = path.module
-  }
-
 }
-
 
 # Define a firewall rule to allow incoming SSH traffic
 resource "google_compute_firewall" "allow-all-tcp-from-local" {
