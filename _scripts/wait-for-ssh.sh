@@ -33,6 +33,7 @@ else
 
   # Copy the docker install script to the remote
   scp ./_scripts/install-docker.sh "${RUSER}@${REMOTE}:"
+  scp .ssh/config "${RUSER}@${REMOTE}:.ssh/config"
 
   # Execute the script on the remote machine
   # shellcheck disable=SC2029
