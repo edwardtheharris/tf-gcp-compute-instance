@@ -39,6 +39,8 @@ resource "google_compute_resource_policy" "weekly" {
 }
 
 # Create a Google Compute Instance
+#
+# In this code block, we create a Google Compute Engine instance named "docker" with the specified configurations.
 resource "google_compute_instance" "docker" {
   name           = var.name
   enable_display = true
@@ -84,11 +86,11 @@ resource "google_compute_instance" "docker" {
     }
   }
 
-  provisioner "local-exec" {
-    command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
-    interpreter = ["/bin/bash", "-c"]
-    working_dir = path.module
-  }
+  # provisioner "local-exec" {
+  #   command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
+  #   interpreter = ["/bin/bash", "-c"]
+  #   working_dir = path.module
+  # }
 }
 
 # Define a firewall rule to allow incoming SSH traffic
