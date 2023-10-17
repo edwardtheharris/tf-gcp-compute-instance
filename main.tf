@@ -40,7 +40,30 @@ resource "google_compute_resource_policy" "weekly" {
 
 # Create a Google Compute Instance
 #
-# In this code block, we create a Google Compute Engine instance named "docker" with the specified configurations.
+# In this code block, we create a Google Compute Engine instance named "docker"
+# with the specified configurations.
+#
+# Local provisioners are discouraged in the TF docs, so this command will need
+# to be run manually on your local machine after the apply has been completed.
+#
+# provisioner "local-exec" {
+#   command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
+#   interpreter = ["/bin/bash", "-c"]
+#   working_dir = path.module
+# }
+#
+# Here is an example of how to use the command. It will also output usage
+# information if you forget to set one of the variables.
+#
+# ```shell
+# remote=your.remote.host
+# private_key=$(cat secrets/id_rsa| base64)
+# public_key=$(cat secrets/id_rsa.pub| base64)
+#
+# source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER
+# ```
+#
+# Note the public and private keys are expected to be base64 encoded.
 resource "google_compute_instance" "docker" {
   name           = var.name
   enable_display = true
@@ -86,11 +109,6 @@ resource "google_compute_instance" "docker" {
     }
   }
 
-  # provisioner "local-exec" {
-  #   command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
-  #   interpreter = ["/bin/bash", "-c"]
-  #   working_dir = path.module
-  # }
 }
 
 # Define a firewall rule to allow incoming SSH traffic
