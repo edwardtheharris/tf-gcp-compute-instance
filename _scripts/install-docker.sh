@@ -61,3 +61,4 @@ ssh-keyscan gitlab.bouncex.net >> ~/.ssh/known_hosts
 echo -n "${LOCAL_PUBLIC_KEY}" | base64 -d >> ~/.ssh/authorized_keys
 echo -n "${LOCAL_PUBLIC_KEY}" | base64 -d >> ~/.ssh/id_rsa.pub
 echo -n "${LOCAL_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
+scp
