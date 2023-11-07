@@ -6,9 +6,21 @@ on a schedule for cost optimization.
 You will need an active Google Cloud Project account for this to work, it will
 also require an associated Billing Account with a valid method of payment.
 
-The cost of running this resource is roughly 0.9 USD per day so long as you
+The cost of running this resource is roughly 0.6 USD per day so long as you
 destroy the resources when you are finished working and leave the spot instance
 setting set to yes.
+
+This was developed as a solution to the problem of running a thick stack in
+Docker on a workstation that just couldn't hack it. Though, in defense of the
+workstation in question, the stack it was being asked to run would be taxing
+on even the most powerful desktop systems. That said, this solution works
+very well in that it is very affordable (~9 USD/mo, depending on how use it's
+getting), efficient, simple, repeatable, reliable, and secure.
+
+The author has been using this daily since it major work on it was
+completed with the
+[v0.0.2](https://github.com/edwardtheharris/tf-gcp-compute-instance/releases/tag/v0.0.2)
+release.
 
 <!-- BEGIN_TF_DOCS -->
 ## Usage
@@ -98,3 +110,36 @@ source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER
 ```
 
 > Note the public and private keys are expected to be base64 encoded.
+
+### [direnv](https://direnv.net)
+
+If you've got [direnv](https://direnv.net) installed and configured, you could
+have the following files in your (uncommitted, obviously) secrets directory.
+
+```shell
+secrets
+├── id_rsa
+├── id_rsa.pub
+└── private-key.gpg
+```
+
+And that would allow you to use an `.envrc` file very similar to the one
+below in order to complete the deployment of your compute instance.
+
+```shell
+#!/bin/bash
+
+private_key=$(base64<secrets/id_rsa)
+public_key=$(base64<secrets/id_rsa.pub)
+gpg_key=secrets/private-key.gpg
+
+export private_key
+export public_key
+export gpg_key
+
+# source _scripts/wait-for-ssh.sh rdd.brick-house.org $private_key $public_key $USER $gpg_key
+```
+
+Because the source command at the end must be executed after the Compute Instance
+has completed its deployment it's left as a comment to be copy/pasted
+into your terminal once the deployment is done.
