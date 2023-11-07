@@ -126,20 +126,24 @@ secrets
 And that would allow you to use an `.envrc` file very similar to the one
 below in order to complete the deployment of your compute instance.
 
+> `.envrc`
+
 ```shell
 #!/bin/bash
 
+gpg_key=secrets/private-key.gpg
 private_key=$(base64<secrets/id_rsa)
 public_key=$(base64<secrets/id_rsa.pub)
-gpg_key=secrets/private-key.gpg
+remote=your-remote.great-googly-moogly.com
 
+export gpg_key
 export private_key
 export public_key
-export gpg_key
+export remote
 
-# source _scripts/wait-for-ssh.sh rdd.brick-house.org $private_key $public_key $USER $gpg_key
+# source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER $gpg_key
 ```
 
-Because the source command at the end must be executed after the Compute Instance
-has completed its deployment it's left as a comment to be copy/pasted
-into your terminal once the deployment is done.
+Because the source command at the end must be executed after the Compute
+Instance has completed its deployment it's left as a comment to be copy/pasted
+into your terminal once the Terraform deployment is done.
