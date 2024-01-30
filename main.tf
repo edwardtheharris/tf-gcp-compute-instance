@@ -74,7 +74,7 @@ resource "google_compute_instance" "docker" {
   metadata = {
     block-project-ssh-keys = true
     enable-os-login        = true
-    ssh-keys               = "xander.harris:${var.ssh_public_key}\nxander.harris:${var.local_keys.public}"
+    ssh-keys               = "${var.local_keys.user}:${var.ssh_public_key}\n${var.local_keys.user}:${var.local_keys.public}"
   }
   tags = ["docker", "allow-ssh"]
   zone = var.zone
