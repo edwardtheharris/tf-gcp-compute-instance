@@ -117,7 +117,7 @@ This module uses only standard resources, so usage is standard as well.
 - [license](license.md)
 <!-- END_TF_DOCS -->
 
-## Connecting
+### Connecting
 
 To connect to the instance you should run a command similar to the one below.
 
