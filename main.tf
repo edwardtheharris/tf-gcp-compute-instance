@@ -21,13 +21,6 @@ provider "google" {
   zone        = var.zone
 }
 
-locals {
-  local_keys = {
-    public=file("secrets/id_rsa.pub")
-    user=file("secrets/user")
-  }
-}
-
 # Create a Google Compute Resource Policy
 resource "google_compute_resource_policy" "weekly" {
   name    = "docker-compute-instance"
@@ -81,7 +74,7 @@ resource "google_compute_instance" "docker" {
   metadata = {
     block-project-ssh-keys = true
     enable-os-login        = true
-    ssh-keys               = "${local.local_keys.user}:${var.ssh_public_key}\n${local.local_keys.user}:${local.local_keys.public}"
+    ssh-keys               = "${var.local_keys.user}:${var.ssh_public_key}\n${var.local_keys.user}:${var.local_keys.public}"
   }
   tags = ["docker", "allow-ssh"]
   zone = var.zone
