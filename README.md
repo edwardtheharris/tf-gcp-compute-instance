@@ -68,163 +68,37 @@ This module uses only standard resources, so usage is standard as well.
 
 ## Providers
 
-The following providers are used by this module:
-
-- google (5.14.0)
+| Name | Version |
+|------|---------|
+| google | 5.14.0 |
 
 ## Outputs
 
-The following outputs are exported:
-
-### dns\_name
-
-Description: Output the DNS name
-
-### instance\_public\_ip
-
-Description: Output the public IP address of the Docker instance
-
-## Required Inputs
-
-No required inputs.
-
-## Optional Inputs
-
-The following input variables are optional (have default values):
-
-### disk\_size\_gb
-
-Description: Storage size in GB
-
-Type: `number`
-
-Default: `100`
-
-### gcp-creds
-
-Description: Path to a file containing GCP service account credentials in JSON format.
-
-Type: `string`
-
-Default: `"secrets/gcp.json"`
-
-### image
-
-Description: The image to deploy to the machine
-
-Type: `string`
-
-Default: `"projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817"`
-
-### local\_keys
-
-Description: SSH keys to be used across the daily deployment of instances
-
-Type: `map(string)`
-
-Default: `{}`
-
-### machine\_type
-
-Description: Type of compute instance to deploy
-
-Type: `string`
-
-Default: `"n2-standard-2"`
-
-### name
-
-Description: Name of the compute instance
-
-Type: `string`
-
-Default: `"docker-build"`
-
-### network
-
-Description: Name of the network to be used
-
-Type: `string`
-
-Default: `"default"`
-
-### project\_id
-
-Description: The Google Cloud Project that the VM will run in.
-
-Type: `string`
-
-Default: `"remote-docker-development"`
-
-### region
-
-Description: Region where resources are deployed to (e.g us-central1).
-
-Type: `string`
-
-Default: `"us-west1"`
-
-### service\_account\_email
-
-Description: The service account email to use for the VM
-
-Type: `string`
-
-Default: `"your-service-account-email"`
-
-### service\_account\_scopes
-
-Description: Scopes to apply to SA
-
-Type: `list(string)`
-
-Default: `[]`
-
-### ssh\_public\_key
-
-Description: Publish ssh key with which to login to the instance
-
-Type: `string`
-
-Default: `""`
-
-### ssh\_ranges
-
-Description: List of IP ranges to allow access to the instance
-
-Type: `list(string)`
-
-Default:
-
-```json
-[
-  "10.0.0.1/32"
-]
-```
-
-### subnetwork
-
-Description: Name of the subnetwork
-
-Type: `string`
-
-Default: `"default"`
-
-### tags
-
-Description: Tags to apply to the instance
-
-Type: `list(string)`
-
-Default: `[]`
-
-### zone
-
-Description: The zone in which to deploy resources
-
-Type: `string`
-
-Default: `"us-central1-a"`
+| Name | Description |
+|------|-------------|
+| dns\_name | Output the DNS name |
+| instance\_public\_ip | Output the public IP address of the Docker instance |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| disk\_size\_gb | Storage size in GB | `number` | `100` | no |
+| gcp-creds | Path to a file containing GCP service account credentials in JSON format. | `string` | `"secrets/gcp.json"` | no |
+| image | The image to deploy to the machine | `string` | `"projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20210817"` | no |
+| local\_keys | SSH keys to be used across the daily deployment of instances | `map(string)` | `{}` | no |
+| machine\_type | Type of compute instance to deploy | `string` | `"n2-standard-2"` | no |
+| name | Name of the compute instance | `string` | `"docker-build"` | no |
+| network | Name of the network to be used | `string` | `"default"` | no |
+| project\_id | The Google Cloud Project that the VM will run in. | `string` | `"remote-docker-development"` | no |
+| region | Region where resources are deployed to (e.g us-central1). | `string` | `"us-west1"` | no |
+| service\_account\_email | The service account email to use for the VM | `string` | `"your-service-account-email"` | no |
+| service\_account\_scopes | Scopes to apply to SA | `list(string)` | `[]` | no |
+| ssh\_public\_key | Publish ssh key with which to login to the instance | `string` | `""` | no |
+| ssh\_ranges | List of IP ranges to allow access to the instance | `list(string)` | ```[ "10.0.0.1/32" ]``` | no |
+| subnetwork | Name of the subnetwork | `string` | `"default"` | no |
+| tags | Tags to apply to the instance | `list(string)` | `[]` | no |
+| zone | The zone in which to deploy resources | `string` | `"us-central1-a"` | no |
 
 ## Resources
 
