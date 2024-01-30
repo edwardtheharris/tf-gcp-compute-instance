@@ -51,6 +51,16 @@ completed with the
 [v0.0.2](https://github.com/edwardtheharris/tf-gcp-compute-instance/releases/tag/v0.0.2)
 release.
 
+## Secret values
+
+You may wish to the contents of some of the variables listed below, to do this
+you will need to do two things. The first is create a directory `secrets`
+in this repository and use that to store your ssh/gpg keys locally, then
+create a tfvars file with the name `secret.auto.tfvars`.
+
+Any directories or filenames with `secret` in the name are ignored by git
+and so safe to store locally.
+
 <!-- BEGIN_TF_DOCS -->
 ## Usage
 

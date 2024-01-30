@@ -6,8 +6,8 @@ variable "disk_size_gb" {
 }
 # Path to a file containing GCP credentials
 variable "gcp-creds" {
-  description = "Path to a file containing GCP credentials"
-  default     = "{}"
+  description = "Path to a file containing GCP service account credentials in JSON format."
+  default     = "secrets/gcp.json"
   type        = string
 }
 
