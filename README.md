@@ -17,7 +17,7 @@ on even the most powerful desktop systems. That said, this solution works
 very well in that it is very affordable (~9 USD/mo, depending on how use it's
 getting), efficient, simple, repeatable, reliable, and secure.
 
-The author has been using this daily since it major work on it was
+The author has been using this daily since major work on it was
 completed with the
 [v0.0.2](https://github.com/edwardtheharris/tf-gcp-compute-instance/releases/tag/v0.0.2)
 release.
