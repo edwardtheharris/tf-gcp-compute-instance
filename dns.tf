@@ -23,14 +23,14 @@ data "google_dns_record_set" "rdd" {
  * with resource targeting and then commented out so that the records
  * will remain after the daily destroy operation.
 */
-# resource "google_dns_managed_zone" "rdd" {
-#   name     = "remote-development-docker-zone" # Unique name for the zone
-#   dns_name = "brick-house.org."               # Domain name for the zone
-#   dnssec_config {
-#     non_existence = "nsec3"
-#     state         = "on"
-#   }
-# }
+resource "google_dns_managed_zone" "rdd" {
+  name     = "remote-development-docker-zone" # Unique name for the zone
+  dns_name = "brick-house.org."               # Domain name for the zone
+  dnssec_config {
+    non_existence = "nsec3"
+    state         = "on"
+  }
+}
 
 # Define Google Cloud DNS managed zone
 data "google_dns_managed_zone" "rdd" {

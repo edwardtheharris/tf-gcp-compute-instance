@@ -3,5 +3,5 @@
 .vscode
 *.lock*
 !Pipfile.lock
-secrets*
+secret*
 .venv

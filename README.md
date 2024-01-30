@@ -11,6 +11,28 @@ on a schedule for cost optimization.
 You will need an active Google Cloud Project account for this to work, it will
 also require an associated Billing Account with a valid method of payment.
 
+## Installation
+
+To run this effectively on a Mac (which is at present the only supported
+platform), you will need to do the following.
+
+> This process assumes you are using [homebrew](https://brew.sh).
+
+1. Install terraform and related utilities.
+
+   ```sh
+   # These are required
+   brew install terraform terraform-docs
+   # These are optional
+   brew install terraform-graph-beautifier terraform-inventory terraform-lsp
+   ```
+
+2. Install the Google Cloud SDK
+
+   ```sh
+   brew install google-cloud-sdk
+   ```
+
 ## Cost
 
 The cost of running this resource is roughly 0.6 USD per day so long as you
