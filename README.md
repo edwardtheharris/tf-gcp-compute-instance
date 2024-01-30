@@ -1,10 +1,17 @@
-# TF GCP Compute Instance
+---
+abstract: This is some Terraform code that will deploy to a GCP account one Google compute instance with enough resources to run Docker for development, or a minikube cluster for Kubernetes.
+authors: Xander Harris
+date: 2024-01-30
+title: TF GCP Compute Instance
+---
 
 A small, non-standard, Terraform module to deploy a single GCP Compute Instance
 on a schedule for cost optimization.
 
 You will need an active Google Cloud Project account for this to work, it will
 also require an associated Billing Account with a valid method of payment.
+
+## Cost
 
 The cost of running this resource is roughly 0.6 USD per day so long as you
 destroy the resources when you are finished working and leave the spot instance
