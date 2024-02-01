@@ -105,10 +105,9 @@ This module uses only standard resources, so usage is standard as well.
 
 ## Resources
 
-- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#122)
-- resource.google_compute_instance.docker (main.tf#74)
-- resource.google_compute_resource_policy.weekly (main.tf#32)
-- resource.google_dns_managed_zone.rdd (dns.tf#26)
+- resource.google_compute_firewall.allow-all-tcp-from-local (main.tf#146)
+- resource.google_compute_instance.docker (main.tf#67)
+- resource.google_compute_resource_policy.weekly (main.tf#25)
 - data source.google_compute_address.remote-development-docker (network.tf#12)
 - data source.google_compute_network.docker (network.tf#2)
 - data source.google_compute_subnetwork.docker (network.tf#7)
@@ -122,71 +121,18 @@ This module uses only standard resources, so usage is standard as well.
 
 ### Connecting
 
-To connect to the instance you should run a command similar to the one below.
+To connect to the instance you may run a command similar to the one below.
 
 ```shell
 gcloud compute ssh --zone "us-west1-c" "docker-build" --project "remote-development-docker"
 ```
 
-### Post-apply Steps
-
-Local provisioners are discouraged in the TF docs, so this command will need
-to be run manually on your local machine after the application has been completed.
-
-```hcl
-provisioner "local-exec" {
-   command     = "source _scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.private} ${var.local_keys.public} ${var.local_keys.user}"
-   interpreter = ["/bin/bash", "-c"]
-   working_dir = path.module
-}
-```
-
-Here is an example of how to use the command. It will also output usage
-information if you forget to set one of the variables.
+However, if everything went as expected you should be able to run this instead.
 
 ```shell
-remote=your.remote.host
-private_key=$(cat secrets/id_rsa| base64)
-public_key=$(cat secrets/id_rsa.pub| base64)
-
-source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER
+ssh your.instance.tld
 ```
 
-> Note the public and private keys are expected to be base64 encoded.
-
-### [Direnv](https://direnv.net)
-
-If you've got [Direnv](https://direnv.net) installed and configured, you could
-have the following files in your (uncommitted, obviously) secrets directory.
-
-```shell
-secrets
-├── id_rsa
-├── id_rsa.pub
-└── private-key.gpg
-```
-
-That would allow you to use a `.envrc` file very similar to the one below to
-complete the deployment of your compute instance.
-
-> `.envrc`
-
-```shell
-#!/bin/bash
-
-gpg_key=secrets/private-key.gpg
-private_key=$(base64<secrets/id_rsa)
-public_key=$(base64<secrets/id_rsa.pub)
-remote=your-remote.great-googly-moogly.com
-
-export gpg_key
-export private_key
-export public_key
-export remote
-
-# source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER $gpg_key
-```
-
-Because the source command at the end must be executed after the Compute
-Instance has completed its deployment it's left as a comment to be copied/pasted
-into your terminal once the Terraform deployment is done.
+You should find a running Ubuntu system with the same username as your local.
+It should be running Docker and Minikube. Also, Skaffold
+and Helm should be installed and ready to use.

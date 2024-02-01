@@ -72,9 +72,9 @@ resource "google_compute_instance" "docker" {
   }
   machine_type = var.machine_type
   metadata = {
-    block-project-ssh-keys = true
+    block-project-ssh-keys = false
     enable-os-login        = true
-    ssh-keys               = "${var.local_keys.user}:${var.ssh_public_key}\n${var.local_keys.user}:${var.local_keys.public}"
+    ssh-keys               = "${var.local_keys.user}:${file(var.ssh_public_key)}\n${var.local_keys.user}:${var.local_keys.public}"
   }
   tags = ["docker", "allow-ssh"]
   zone = var.zone
@@ -109,6 +109,37 @@ resource "google_compute_instance" "docker" {
     }
   }
 
+  provisioner "local-exec" {
+    command     = "source ${path.module}/_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.user} ${var.local_keys.gpg}"
+  }
+
+  provisioner "file" {
+    source = "${path.module}/conf/completions/"
+    destination = "/usr/share/bash-completion/completions/"
+  }
+
+  provisioner "file" {
+    source = "${path.module}/conf/dotfiles/"
+    destination = "/home/${var.local_keys.user}/"
+  }
+  # connection {
+  #   type        = "ssh"
+  #   user        = var.local_keys.user
+  #   private_key = file(var.local_keys.private_key_path)
+  #   host        = self.network_interface[0].access_config[0].nat_ip
+  # }
+
+  # provisioner "file" {
+  #   source      = "${path.module}/_scripts/install-docker.sh"
+  #   destination = "/bin/install-docker.sh"
+  # }
+
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "chmod +x /bin/install-docker.sh",
+  #     "/bin/install-docker.sh",
+  #   ]
+  # }
 }
 
 # Define a firewall rule to allow incoming SSH traffic
