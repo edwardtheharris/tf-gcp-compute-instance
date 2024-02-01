@@ -42,7 +42,7 @@ else
   # Execute the script on the remote machine
   # shellcheck disable=SC2029
   ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/install-docker.sh ${RUSER}"
-  ssh "${RUSER}@${REMOTE}" sudo cp -rv "/home/${RUSER}/completions/* /usr/share/bash-completion/completions"
+  # ssh "${RUSER}@${REMOTE}" sudo cp -rv "/home/${RUSER}/completions/* /usr/share/bash-completion/completions"
   # Execute git setup script on remote
   # shellcheck disable=SC2029
   ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/setup-gpg.sh /home/${RUSER}/${GPG_KEY_PATH/secrets\///}"
