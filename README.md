@@ -1,5 +1,8 @@
 ---
-abstract: This is some Terraform code that will deploy to a GCP account one Google compute instance with enough resources to run Docker for development, or a minikube cluster for Kubernetes.
+abstract: >
+   This is some Terraform code that will deploy to a GCP account one Google
+   compute instance with enough resources to run Docker for development or a
+   Minikube cluster for Kubernetes.
 authors: Xander Harris
 date: 2024-01-30
 title: TF GCP Compute Instance
@@ -40,7 +43,7 @@ destroy the resources when you are finished working and leave the spot instance
 setting set to yes.
 
 This was developed as a solution to the problem of running a thick stack in
-Docker on a workstation that just couldn't hack it. Though, in defense of the
+Docker on a workstation that just couldn't hack it. However, in defense of the
 workstation in question, the stack it was being asked to run would be taxing
 on even the most powerful desktop systems. That said, this solution works
 very well in that it is very affordable (~9 USD/mo, depending on how use it's
@@ -54,12 +57,12 @@ release.
 ## Secret values
 
 You may wish to the contents of some of the variables listed below, to do this
-you will need to do two things. The first is create a directory `secrets`
-in this repository and use that to store your ssh/gpg keys locally, then
-create a tfvars file with the name `secret.auto.tfvars`.
+you will need to do two things. The first is to create a directory
+named `secrets` in this repository and use that to store your SSH/GPG keys
+locally, then create a tfvars file with the name `secret.auto.tfvars`.
 
-Any directories or filenames with `secret` in the name are ignored by git
-and so safe to store locally.
+Any directories or filenames with a name that contains the word `secret` are
+ignored by git and so are safe to store locally.
 
 <!-- BEGIN_TF_DOCS -->
 ## Usage
@@ -128,7 +131,7 @@ gcloud compute ssh --zone "us-west1-c" "docker-build" --project "remote-developm
 ### Post-apply Steps
 
 Local provisioners are discouraged in the TF docs, so this command will need
-to be run manually on your local machine after the apply has been completed.
+to be run manually on your local machine after the application has been completed.
 
 ```hcl
 provisioner "local-exec" {
@@ -151,9 +154,9 @@ source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER
 
 > Note the public and private keys are expected to be base64 encoded.
 
-### [direnv](https://direnv.net)
+### [Direnv](https://direnv.net)
 
-If you've got [direnv](https://direnv.net) installed and configured, you could
+If you've got [Direnv](https://direnv.net) installed and configured, you could
 have the following files in your (uncommitted, obviously) secrets directory.
 
 ```shell
@@ -163,8 +166,8 @@ secrets
 └── private-key.gpg
 ```
 
-And that would allow you to use an `.envrc` file very similar to the one
-below in order to complete the deployment of your compute instance.
+That would allow you to use a `.envrc` file very similar to the one below to
+complete the deployment of your compute instance.
 
 > `.envrc`
 
@@ -185,5 +188,5 @@ export remote
 ```
 
 Because the source command at the end must be executed after the Compute
-Instance has completed its deployment it's left as a comment to be copy/pasted
+Instance has completed its deployment it's left as a comment to be copied/pasted
 into your terminal once the Terraform deployment is done.
