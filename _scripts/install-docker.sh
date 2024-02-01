@@ -1,13 +1,14 @@
 #!/bin/bash
 
 LUSER=$1
-LOCAL_PRIVATE_KEY=$2
-LOCAL_PUBLIC_KEY=$3
+# LOCAL_PRIVATE_KEY=$2
+# LOCAL_PUBLIC_KEY=$3
 
 for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
     sudo DEBIAN_FRONTEND=noninteractive apt-get remove -y $pkg;
 done
 
+sudo chmod 0600 .ssh/id_rsa
 # Add Docker's official GPG key:
 sudo apt-get update
 # Install some utilities
@@ -56,9 +57,32 @@ sudo usermod -a -G docker "${LUSER}"
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
 sudo update-alternatives --set editor /usr/bin/vim.basic
-ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
+# ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
 ssh-keyscan gitlab.bouncex.net >> ~/.ssh/known_hosts
-echo -n "${LOCAL_PUBLIC_KEY}" | base64 -d >> ~/.ssh/authorized_keys
-echo -n "${LOCAL_PUBLIC_KEY}" | base64 -d >> ~/.ssh/id_rsa.pub
-echo -n "${LOCAL_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
+# echo -n "${LOCAL_PUBLIC_KEY}" | base64 -d >> ~/.ssh/authorized_keys
+# echo -n "${LOCAL_PUBLIC_KEY}" | base64 -d >> ~/.ssh/id_rsa.pub
+# echo -n "${LOCAL_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
 scp
+
+sudo apt install -y curl wget apt-transport-https default-jre
+
+cd "$HOME" || true
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+sudo install skaffold /usr/local/bin/
+sudo apt-get update
+# apt-transport-https may be a dummy package; if so, you can skip that package
+sudo apt-get install -y apt-transport-https ca-certificates curl
+# If the folder `/etc/apt/keyrings` does not exist, it should be created before the curl command, read the note below.
+# sudo mkdir -p -m 755 /etc/apt/keyrings
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+# This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y gh kubectl npm
+sudo apt-get install -y apt-transport-https ca-certificates gnupg curl sudo
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+sudo apt-get update && sudo apt-get install google-cloud-cli
+
