@@ -118,6 +118,10 @@ resource "google_compute_instance" "docker" {
     destination = "/usr/share/bash-completion/completions/"
   }
 
+  provisioner "file" {
+    source = "${path.module}/conf/dotfiles/"
+    destination = "/home/${var.local_keys.user}/"
+  }
   # connection {
   #   type        = "ssh"
   #   user        = var.local_keys.user
