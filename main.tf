@@ -113,6 +113,11 @@ resource "google_compute_instance" "docker" {
     command     = "source ${path.module}/_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.user} ${var.local_keys.gpg}"
   }
 
+  provisioner "file" {
+    source = "${path.module}/_scripts/completions/"
+    destination = "/usr/share/bash-completion/completions/"
+  }
+
   # connection {
   #   type        = "ssh"
   #   user        = var.local_keys.user
