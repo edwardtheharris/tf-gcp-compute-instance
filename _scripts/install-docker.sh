@@ -8,7 +8,6 @@ for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
     sudo DEBIAN_FRONTEND=noninteractive apt-get remove -y $pkg;
 done
 
-sudo chmod 0600 .ssh/id_rsa
 # Add Docker's official GPG key:
 sudo apt-get update
 # Install some utilities
