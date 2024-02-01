@@ -66,11 +66,8 @@ scp
 sudo apt install -y curl wget apt-transport-https
 
 cd "$HOME" || true
-
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
-
 sudo apt-get update
 # apt-transport-https may be a dummy package; if so, you can skip that package
 sudo apt-get install -y apt-transport-https ca-certificates curl
@@ -81,3 +78,5 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubectl
+
+
