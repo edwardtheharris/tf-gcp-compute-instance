@@ -1,8 +1,6 @@
 #!/bin/bash
 
 LUSER=$1
-# LOCAL_PRIVATE_KEY=$2
-# LOCAL_PUBLIC_KEY=$3
 
 for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
     sudo DEBIAN_FRONTEND=noninteractive apt-get remove -y $pkg;

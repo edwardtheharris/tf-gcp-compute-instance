@@ -14,16 +14,14 @@ USAGE
   return 1;
 }
 
-if [[ -z $4 ]]; then
+if [[ -z $3 ]]; then
   usage
 else
   # Set the first argument passed to the script to the IP or domain name we
   # will connect to.
   REMOTE=$1
-  PRIVATE_KEY=$2
-  PUBLIC_KEY=$3
-  RUSER=$4
-  GPG_KEY_PATH=$5
+  RUSER=$2
+  GPG_KEY_PATH=$3
 
   # Wait for the first argument from the CLI in the form of an IP address or
   # domain name to become open on port 22 from our source IP.
@@ -43,7 +41,7 @@ else
 
   # Execute the script on the remote machine
   # shellcheck disable=SC2029
-  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/install-docker.sh ${RUSER} ${PRIVATE_KEY} ${PUBLIC_KEY}"
+  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/install-docker.sh ${RUSER}"
   ssh "${RUSER}@${REMOTE}" sudo cp -rv "/home/${RUSER}/completions/* /usr/share/bash-completion/completions"
   # Execute git setup script on remote
   # shellcheck disable=SC2029
