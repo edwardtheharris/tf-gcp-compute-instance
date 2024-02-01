@@ -38,10 +38,12 @@ else
   scp ./_scripts/setup-gpg.sh "${RUSER}@${REMOTE}:"
   scp "${GPG_KEY_PATH}" "${RUSER}@${REMOTE}:"
   scp "${HOME}/.gitconfig" "${RUSER}@${REMOTE}:"
+  scp -rv _scripts/completions "${RUSER}@${REMOTE}:completions"
 
   # Execute the script on the remote machine
   # shellcheck disable=SC2029
   ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/install-docker.sh ${RUSER} ${PRIVATE_KEY} ${PUBLIC_KEY}"
+  ssh "${RUSER}@${REMOTE}" sudo cp -rv "/home/${RUSER}/completions/* /usr/share/bash-completion/completions"
   # Execute git setup script on remote
   # shellcheck disable=SC2029
   ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/setup-gpg.sh /home/${RUSER}/${GPG_KEY_PATH/secrets\///}"
