@@ -114,7 +114,7 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "file" {
-    source = "${path.module}/_scripts/completions/"
+    source = "${path.module}/conf/completions/"
     destination = "/usr/share/bash-completion/completions/"
   }
 

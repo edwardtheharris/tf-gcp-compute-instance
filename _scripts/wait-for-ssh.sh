@@ -32,7 +32,7 @@ else
 
   # Copy the docker install script to the remote
   scp -v ./_scripts/install-docker.sh "${RUSER}@${REMOTE}:"
-  scp .ssh/config "${RUSER}@${REMOTE}:.ssh/config"
+  scp conf/.ssh/config "${RUSER}@${REMOTE}:.ssh/config"
   scp secrets/id_rsa* "${RUSER}@${REMOTE}:.ssh/"
   scp ./_scripts/setup-gpg.sh "${RUSER}@${REMOTE}:"
   scp "${GPG_KEY_PATH}" "${RUSER}@${REMOTE}:"
