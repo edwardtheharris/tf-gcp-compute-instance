@@ -72,7 +72,7 @@ resource "google_compute_instance" "docker" {
   }
   machine_type = var.machine_type
   metadata = {
-    block-project-ssh-keys = true
+    block-project-ssh-keys = false
     enable-os-login        = true
     ssh-keys               = "${var.local_keys.user}:${var.ssh_public_key}\n${var.local_keys.user}:${var.local_keys.public}"
   }

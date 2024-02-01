@@ -190,3 +190,10 @@ export remote
 Because the source command at the end must be executed after the Compute
 Instance has completed its deployment it's left as a comment to be copied/pasted
 into your terminal once the Terraform deployment is done.
+
+```{code-block} shell
+:caption: run this after the instance is available
+
+gcloud compute ssh --zone "us-west1-c" "docker-build" --project "remote-development-docker"
+source _scripts/wait-for-ssh.sh $remote $private_key $public_key $USER $gpg_key
+```
