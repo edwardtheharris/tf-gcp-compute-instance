@@ -1,0 +1,42 @@
+---
+- name: Copy root configs
+  hosts: all
+  remote_user: duchess
+  tasks:
+    - name: ping the hosts
+      ping:
+        data: rdd.brick-house.org
+    - name: Copy root files
+      ansible.builtin.copy:
+        src: "./conf/dotfiles/root/{{ item }}"
+        dest: "/root/{{ item }}"
+        group: root
+        mode: >
+          0640
+        owner: "root"
+      loop:
+        - '.bash_profile'
+        - '.bashrc'
+        - '.gitconfig'
+        - '.vimrc'
+        - '.wakatime.cfg'
+      become: true
+      tags:
+        - root
+    - name: Copy root files
+      ansible.builtin.copy:
+        src: "./conf/dotfiles/user/{{ item }}"
+        dest: "/home/duchess/{{ item }}"
+        group: users
+        mode: >
+          0640
+        owner: "duchess"
+      loop:
+        - '.bash_profile'
+        - '.bashrc'
+        - '.gitconfig'
+        - '.vimrc'
+        - '.wakatime.cfg'
+      become: true
+      tags:
+        - user

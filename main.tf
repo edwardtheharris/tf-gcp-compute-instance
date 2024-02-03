@@ -121,26 +121,9 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "file" {
-    source = "${path.module}/conf/completions/"
-    destination = "/usr/share/bash-completion/completions/"
-  }
-
-  provisioner "file" {
     source = "${path.module}/conf/dotfiles/"
     destination = "/home/${var.local_keys.user}/"
   }
-
-  # provisioner "file" {
-  #   source      = "${path.module}/_scripts/install-docker.sh"
-  #   destination = "/bin/install-docker.sh"
-  # }
-
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "chmod +x /bin/install-docker.sh",
-  #     "/bin/install-docker.sh",
-  #   ]
-  # }
 }
 
 # Define a firewall rule to allow incoming SSH traffic

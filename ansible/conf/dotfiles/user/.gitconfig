@@ -1,0 +1,8 @@
+[user]
+	email = plebis@hotmail.com
+	name = Edward Harris
+	signingkey = 0DCE2D338AFABEAC
+[commit]
+	gpgsign = true
+[core]
+	editor = vim
