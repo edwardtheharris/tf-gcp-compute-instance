@@ -109,10 +109,6 @@ resource "google_compute_instance" "docker" {
     }
   }
 
-  provisioner "local-exec" {
-    command     = "sh ${path.module}/_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.user} ${var.local_keys.gpg}"
-  }
-
 }
 
 # Define a firewall rule to allow incoming SSH traffic
