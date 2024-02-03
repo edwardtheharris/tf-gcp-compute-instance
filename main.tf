@@ -110,7 +110,7 @@ resource "google_compute_instance" "docker" {
   }
 
   provisioner "local-exec" {
-    command     = "source ${path.module}/_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.user} ${var.local_keys.gpg}"
+    command     = "source ${path.module}/_scripts/wait-for-ssh.sh ${google_compute_instance.docker.network_interface[0].access_config[0].nat_ip} ${var.local_keys.user} ${base64decode(var.local_keys.gpg)}"
   }
 
   provisioner "file" {
