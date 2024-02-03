@@ -21,7 +21,7 @@ else
   # will connect to.
   REMOTE=$1
   RUSER=$2
-  GPG_KEY_PATH=$3
+  GPG_KEY_B64=$3
 
   # Wait for the first argument from the CLI in the form of an IP address or
   # domain name to become open on port 22 from our source IP.
@@ -45,6 +45,7 @@ else
   # ssh "${RUSER}@${REMOTE}" sudo cp -rv "/home/${RUSER}/completions/* /usr/share/bash-completion/completions"
   # Execute git setup script on remote
   # shellcheck disable=SC2029
-  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/setup-gpg.sh /home/${RUSER}/${GPG_KEY_PATH/secrets\///}"
+  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/setup-gpg.sh ${GPG_KEY_B64}"
   ssh "${RUSER}@${REMOTE}" sudo chmod -v 0600 .ssh/id_rsa
+  ssh "${RUSER}@${REMOTE}" minikube start
 fi
