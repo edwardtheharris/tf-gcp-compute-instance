@@ -119,11 +119,6 @@ resource "google_compute_instance" "docker" {
     private_key = file(var.local_keys.private_key_path)
     host        = self.network_interface[0].access_config[0].nat_ip
   }
-
-  provisioner "file" {
-    source = "${path.module}/conf/dotfiles/"
-    destination = "/home/${var.local_keys.user}/"
-  }
 }
 
 # Define a firewall rule to allow incoming SSH traffic
