@@ -3,8 +3,8 @@
   hosts: all
   remote_user: duchess
   tasks:
-    - name: ping the hosts
-      ping:
+    - name: Ping the hosts
+      ansible.builtin.ping:
         data: rdd.brick-house.org
     - name: Copy root files
       ansible.builtin.copy:
@@ -23,7 +23,7 @@
       become: true
       tags:
         - root
-    - name: Copy root files
+    - name: Copy user files
       ansible.builtin.copy:
         src: "./conf/dotfiles/user/{{ item }}"
         dest: "/home/duchess/{{ item }}"
@@ -40,3 +40,151 @@
       become: true
       tags:
         - user
+    - name: Remove old docker packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: absent
+      become: true
+      loop:
+        - docker.io
+        - docker-doc
+        - docker-compose
+        - podman-docker
+        - containerd
+        - runc
+      tags:
+        - docker
+    - name: Copy docker apt list
+      ansible.builtin.copy:
+        src: "conf/apt/{{ item }}"
+        dest: "/etc/apt/sources.list.d/{{ item }}"
+        owner: root
+        mode: 'u+rw,g+rw'
+      become: true
+      loop:
+        - docker.list
+        - google-cloud-sdk.list
+        - helm-stable-debian.list
+        - kubernetes.list
+      tags:
+        - docker
+    - name: Make keyring directory
+      ansible.builtin.file:
+        dest: /etc/apt/keyrings
+      become: true
+      tags:
+        - docker
+    - name: Download docker gpg keyring
+      ansible.builtin.copy:
+        dest: "/etc/apt/keyrings/{{ item }}"
+        owner: root
+        mode: 'u+rw,g+rw,o+r'
+        src: "conf/apt/{{ item }}"
+      become: true
+      loop:
+        - docker.gpg
+        - kubernetes-apt-keyring.gpg
+        - cloud.google.gpg
+        - helm.gpg
+      tags:
+        - docker
+    - name: Update apt keyring
+      ansible.builtin.apt_key:
+        file: "/etc/apt/keyrings/{{ item }}"
+        state: present
+      become: true
+      loop:
+        - docker.gpg
+        - kubernetes-apt-keyring.gpg
+        - cloud.google.gpg
+        - helm.gpg
+      tags:
+        - docker
+    - name: Add docker dependencies
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: true
+      become: true
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - containerd.io
+        - curl
+        - default-jre
+        - docker-buildx-plugin
+        - docker-ce
+        - docker-ce-cli
+        - docker-compose-plugin
+        - gh
+        - glances
+        - google-cloud-cli
+        - gnupg
+        - helm
+        - httpie
+        - kubectl
+        - netdata
+        - npm
+        - wget
+      tags:
+        - docker
+    - name: Run full upgrade
+      ansible.builtin.apt:
+        autoremove: true
+        upgrade: full
+      become: true
+      tags:
+        - docker
+    - name: Update user groups
+      ansible.builtin.user:
+        name: duchess
+        groups: docker
+        append: true
+      become: true
+      tags:
+        - docker
+    - name: Add netdata conf
+      ansible.builtin.copy:
+        src: conf/netdata.conf
+        dest: /etc/netdata/netdata.conf
+        owner: root
+        group: netdata
+        mode: 'u+rw,g+rw'
+      become: true
+      tags:
+        - netdata
+    - name: Restart netdata
+      ansible.builtin.service:
+        name: netdata
+        state: restarted
+        enabled: true
+      become: true
+      tags:
+        - netdata
+    - name: Set vim as editor
+      community.general.alternatives:
+        name: editor
+        path: /usr/bin/vim.basic
+      become: true
+      tags:
+        - config
+    - name: Install minikube
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/bin/minikube
+        owner: root
+        group: docker
+        mode: 'a+rwx'
+      become: true
+      tags:
+        - minikube
+    - name: Install https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+        dest: /usr/bin/skaffold
+        owner: root
+        group: docker
+        mode: a+rwx'
+      become: true
+      tags:
+        - skaffold
