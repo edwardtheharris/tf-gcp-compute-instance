@@ -5,3 +5,4 @@
 !Pipfile.lock
 secret*
 .venv
+.DS_Store

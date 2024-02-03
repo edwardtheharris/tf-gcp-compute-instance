@@ -21,7 +21,7 @@ else
   # will connect to.
   REMOTE=$1
   RUSER=$2
-  GPG_KEY_PATH=$3
+  GPG_KEY_B64=$3
 
   # Wait for the first argument from the CLI in the form of an IP address or
   # domain name to become open on port 22 from our source IP.
@@ -35,16 +35,17 @@ else
   scp conf/.ssh/config "${RUSER}@${REMOTE}:.ssh/config"
   scp secrets/id_rsa* "${RUSER}@${REMOTE}:.ssh/"
   scp ./_scripts/setup-gpg.sh "${RUSER}@${REMOTE}:"
-  scp "${GPG_KEY_PATH}" "${RUSER}@${REMOTE}:"
+  # scp "${GPG_KEY_PATH}" "${RUSER}@${REMOTE}:"
   scp "${HOME}/.gitconfig" "${RUSER}@${REMOTE}:"
-  scp -rv _scripts/completions "${RUSER}@${REMOTE}:completions"
+  # scp -rv _scripts/completions "${RUSER}@${REMOTE}:completions"
 
   # Execute the script on the remote machine
   # shellcheck disable=SC2029
-  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/install-docker.sh ${RUSER}"
+  # ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/install-docker.sh ${RUSER}"
   # ssh "${RUSER}@${REMOTE}" sudo cp -rv "/home/${RUSER}/completions/* /usr/share/bash-completion/completions"
   # Execute git setup script on remote
   # shellcheck disable=SC2029
-  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/setup-gpg.sh /home/${RUSER}/${GPG_KEY_PATH/secrets\///}"
+  ssh "${RUSER}@${REMOTE}" source "/home/${RUSER}/setup-gpg.sh ${GPG_KEY_B64}"
   ssh "${RUSER}@${REMOTE}" sudo chmod -v 0600 .ssh/id_rsa
+  ssh "${RUSER}@${REMOTE}" minikube start
 fi
