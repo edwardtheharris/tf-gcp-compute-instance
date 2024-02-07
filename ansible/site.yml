@@ -187,7 +187,15 @@
         dest: /usr/bin/skaffold
         owner: root
         group: docker
-        mode: 'u+rwx,g+rwx'
+        mode: 'u+x,g+x,o+x'
       become: true
       tags:
         - skaffold
+    - name: Install kubie
+      ansible.builtin.get_url:
+        url: https://github.com/sbstp/kubie/releases/download/v0.23.0/kubie-linux-amd64
+        dest: /usr/bin/kubie
+        owner: root
+        group: docker
+        mode: 'u+x,g+x,o+x'
+      become: true
