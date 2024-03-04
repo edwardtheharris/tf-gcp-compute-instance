@@ -100,11 +100,14 @@
         - helm.gpg
       tags:
         - docker
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
     - name: Add docker dependencies
       ansible.builtin.apt:
         name: "{{ item }}"
         state: present
-        update_cache: true
       become: true
       loop:
         - apt-transport-https
@@ -178,13 +181,21 @@
       become: true
       tags:
         - minikube
-    - name: Install https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+    - name: Install skaffold
       ansible.builtin.get_url:
         url: https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
         dest: /usr/bin/skaffold
         owner: root
         group: docker
-        mode: a+rwx'
+        mode: 'u+x,g+x,o+x'
       become: true
       tags:
         - skaffold
+    - name: Install kubie
+      ansible.builtin.get_url:
+        url: https://github.com/sbstp/kubie/releases/download/v0.23.0/kubie-linux-amd64
+        dest: /usr/bin/kubie
+        owner: root
+        group: docker
+        mode: 'u+x,g+x,o+x'
+      become: true
