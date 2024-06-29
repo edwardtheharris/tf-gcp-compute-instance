@@ -1,4 +1,9 @@
-# The Unlicense
+---
+abstract: This repository is unlicensed. 
+authors: Xander Harris
+date: 2024-01-30
+title: The Unlicense
+---
 
 This is free and unencumbered software released into the public domain.
 

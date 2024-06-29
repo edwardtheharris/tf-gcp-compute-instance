@@ -8,6 +8,5 @@ ansible = "*"
 ansible-lint = "*"
 
 [dev-packages]
-
-[requires]
-python_version = "3.11"
+gitpython = "*"
+loguru = "*"
